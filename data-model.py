@@ -11,6 +11,17 @@ from flask_sqlalchemy import SQLalchemy
 db = SQLalchemy()
 
 
+class Cuisine(db.Model):
+    """Type of cuisine available for User to search or favorite."""
+
+    __tablename__ = "cuisines"
+
+    cuisine_id = db.Column(db.Integer,
+                           autoincrement=True,
+                           primary_key=True)
+    cuisine_name = db.Column(db.String(30), nullable=False)
+
+
 class User(db.Model):
     """User of Hangry website."""
 
@@ -26,9 +37,23 @@ class User(db.Model):
     city = db.Column(db.String(45), nullable=False, default="San Francisco")
     state = db.Column(db.String(2), nullable=False, default="CA")
     zipcode = db.Column(db.String(5), nullable=False)
+    fav_cuisine = db.Column(db.Integer,
+                            db.ForeignKey("cuisines.cuisine_id"),
+                            nullable=True)
 
     def __repr__(self):
         """Provide representation of User when printed."""
 
         return "<User user_id={} username={}".format(self.user_id,
                                                      self.username)
+
+
+def connect_to_db(app):
+    """Connect the database to Hangry Flask app."""
+
+    # Configure to use PostgreSQL database
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///hangry"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
+

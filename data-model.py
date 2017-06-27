@@ -21,6 +21,12 @@ class Cuisine(db.Model):
                            primary_key=True)
     cuisine_name = db.Column(db.String(30), nullable=False)
 
+    def __repr__(self):
+        """Provide representation of object when printed"""
+
+        return "<Cuisine cuisine_id={} cuisine_name={}".format(self.cuisine_id,
+                                                               self.cuisine_name)
+
 
 class User(db.Model):
     """User of Hangry website."""
@@ -47,6 +53,8 @@ class User(db.Model):
         return "<User user_id={} username={}".format(self.user_id,
                                                      self.username)
 
+    cuisine = db.relationship("Cuisine", backref=db.backref("cuisines"))
+
 
 def connect_to_db(app):
     """Connect the database to Hangry Flask app."""
@@ -56,4 +64,5 @@ def connect_to_db(app):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+
 

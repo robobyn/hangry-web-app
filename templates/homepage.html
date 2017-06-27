@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Hangry</h1>
+<h3>For when you're so hungry you can't even.</h3>
+
+<h2>Login</h2>
+
+  <form action="/login" method="POST">
+    E-mail address: 
+    <input type="email" name="email" required><br><br>
+    Password (must be 4 to 12 characters): 
+    <input type="password" name="password"><br><br>
+    <input type="submit" value="Login">
+  </form>
+
+<h2>New to Hangry?</h2>
+<p><a href="/create-account">Click here </a>to get started<br>
+  We know you're hangry, but we promise it'll only take a minute to create your
+  account.
+</p>
+
+{% endblock %}

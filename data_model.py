@@ -1,6 +1,6 @@
 """Models and database functions for Hangry project"""
 
-from flask_sqlalchemy import SQLalchemy
+from flask_sqlalchemy import SQLAlchemy
 
 # data-model.py connects to PostgreSQL database through flask-sqlalchemy
 # tables/classes include User, Cuisine, and Delivery Services
@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLalchemy
 # key that references Cuisines table - Delivery Services is independent of
 # other 2 tables/classes
 
-db = SQLalchemy()
+db = SQLAlchemy()
 
 
 class Cuisine(db.Model):
@@ -64,4 +64,12 @@ def connect_to_db(app):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will leave
+    # you in a state of being able to work with the database directly.
+
+    from server import app
+    connect_to_db(app)
+    print "Connected to DB."
 

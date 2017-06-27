@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template
 from flask import redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-# from data_model import connect_to_db, db, User, Cuisine
+from data_model import connect_to_db, db, User, Cuisine
 
 
 app = Flask(__name__)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     app.debug = True
     app.jinja_env.auto_reload = app.debug
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     # DebugToolbarExtension(app)  # need secret key for this to work

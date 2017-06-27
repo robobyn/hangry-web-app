@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Create your Account</h1>
+<h3>The Cure for the Common Hangry</h3>
+
+  <form action="/create-account" method="POST">
+    Username:
+    <input type="text" name="username" required><br><br>
+    E-mail address: 
+    <input type="email" name="email" required><br><br>
+    Password (must be 4 to 12 characters): 
+    <input type="password" name="password"><br><br>
+    Delivery Address:
+    <input type="text" name="st_address"><br><br>
+    City:
+    <input type="text" name="city"><br><br>
+    State:
+    <input type="text" name="state"><br><br>
+    Zipcode:
+    <input type="number" name="zipcode"><br><br>
+    <input type="submit" value="Create now!">
+  </form>
+
+{% endblock %}
+
+<!-- To add - user picks favorite type of cuisine from dropdown menu of cuisines -->

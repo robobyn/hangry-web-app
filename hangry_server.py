@@ -9,7 +9,7 @@ from data_model import connect_to_db, db, User, Cuisine
 
 app = Flask(__name__)
 
-app.secret_key = ""  # need to create secret key & fill this in
+app.secret_key = "ABCD"  # need to create secret key & fill this in
 
 
 @app.route("/")
@@ -28,9 +28,41 @@ def show_acct_form():
 
 @app.route("/create-account", methods=["POST"])
 def create_acct():
-    """Sends user's account creation form to database."""
+    """Sends user's account creation form to database.
 
-    pass
+    Checks database for existing user with same email
+    If user exists, prompts user to login
+    If user does not exist, creates new user & adds to database."""
+
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    st_address = request.form.get("st_address")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zipcode = request.form.get("zipcode")
+
+    existing_user = User.query.filter(User.email == email).first()
+
+    if not existing_user:
+
+        new_user = User(username=username,
+                        email=email,
+                        password=password,
+                        st_address=st_address,
+                        city=city,
+                        state=state,
+                        zipcode=zipcode)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash("You successfully created an account")
+        return redirect("/")
+
+    else:
+        flash("That e-mail address is already in use!  Login at the homepage or try a different email.")
+        return redirect("/create-account")
 
 
 @app.route("/profile")  # will need route to go to specific user page
@@ -58,7 +90,32 @@ def show_results():
 def log_user_in():
     """Logs user into account based on form input."""
 
-    pass
+    email = request.form.get("email")
+    form_password = request.form.get("password")
+
+    existing_user = User.query.filter(User.email == email).first()
+    user_id = existing_user.user_id
+
+    if not existing_user:
+
+        flash("You must create an account first")
+        return redirect("/")
+
+    else:
+
+        user_password = existing_user.password
+
+        if form_password != user_password:
+
+            flash("The password you entered does not match your account")
+            return redirect("/")
+
+        else:
+
+            session["user_id"] = user_id
+
+            flash("You've successfully logged in")
+            return redirect("/")
 
 
 if __name__ == "__main__":

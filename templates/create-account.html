@@ -74,8 +74,8 @@
     Favorite type of restaurant:
     <select name="cuisines">
     {% for category in categories %}
-        <option value="{{ category.decode('utf-8') }}">
-          {{ category.decode('utf-8') }}</option>
+        <option value="{{ category[0] }}">
+          {{ category[0] }}</option>
     {% endfor %}
     <br><br>
     <input type="submit" value="Create now!">

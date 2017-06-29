@@ -24,10 +24,9 @@ def show_acct_form():
     """Display form to create Hangry account."""
 
     categories = db.session.query(Cuisine.cuisine_name).all()
-    str_categories = [str(category) for category in categories]
 
     return render_template("create-account.html",
-                           categories=str_categories)
+                           categories=categories)
 
 
 @app.route("/create-account", methods=["POST"])

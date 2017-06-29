@@ -24,25 +24,30 @@ def get_access_token():
     return access_token
 
 
-headers = {'Authorization': 'Bearer ' + os.environ["ACCESS_TOKEN"]}  # authentication information will be in header
+def get_yelp_rating(term, location):
+    """Gets Yelp rating for restaurant.
 
-params = dict(term='coffee', latitude=37.786882, longitude=-122.399972)  # search conditions
+    Args: term is string name of restaurant
+          location is string street address of restaurant
+          location can also be city and state - param is flexible
 
-response = requests.get('https://api.yelp.com/v3/businesses/search',
-                        params=params,
-                        headers=headers)  # get businesses from keyword search
+    Return value is float between 1 and 5."""
 
-result = response.json()
+    # headers contain authentication information
+    headers = {'Authorization': 'Bearer ' + os.environ["ACCESS_TOKEN"]}
 
+    # search params limit response to one restaurant
+    params = dict(term=term, location=location, limit=1)
 
-# f = open('data.json', 'w')
+    # get first restaurant that matches search terms from Yelp API
+    response = requests.get('https://api.yelp.com/v3/businesses/search',
+                            params=params,
+                            headers=headers)
 
-# for business in result['businesses']: # for each business, get details and dump into a file, one JSON per line
-#     _id =  business['id']
-#     url = 'https://api.yelp.com/v3/businesses/' + _id
-#     print url
-#     data = requests.get(url, headers=headers).json()
-#     line = json.dumps(data)
-#     f.write(line+'\n')
+    result = response.json()
 
-# f.close()
+    # get restaurant rating from API response
+    rating = result['businesses'][0]['rating']
+
+    print rating
+    return rating

@@ -16,7 +16,7 @@
     City:
     <input type="text" name="city"><br><br>
     State:
-    <select>
+    <select name="state">
       <option value="AL">Alabama</option>
       <option value="AK">Alaska</option>
       <option value="AZ">Arizona</option>
@@ -71,6 +71,13 @@
     </select><br><br>
     Zipcode:
     <input type="number" name="zipcode"><br><br>
+    Favorite type of restaurant:
+    <select name="cuisines">
+    {% for category in categories %}
+        <option value="{{ category.decode('utf-8') }}">
+          {{ category.decode('utf-8') }}</option>
+    {% endfor %}
+    <br><br>
     <input type="submit" value="Create now!">
   </form>
 

@@ -24,7 +24,7 @@ class Cuisine(db.Model):
     def __repr__(self):
         """Provide representation of object when printed"""
 
-        return "<Cuisine cuisine_id={} cuisine_name={}".format(self.cuisine_id,
+        return "<Cuisine cuisine_id={} cuisine_name={}>".format(self.cuisine_id,
                                                                self.cuisine_name)
 
 

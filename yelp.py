@@ -1,4 +1,4 @@
-"""Sample of code used to get responses from Yelp API."""
+"""Helper functions to deal with requests from Yelp API."""
 
 
 import requests
@@ -34,10 +34,10 @@ def get_yelp_rating(term, location):
     Return value is float between 1 and 5."""
 
     # headers contain authentication information
-    headers = {'Authorization': 'Bearer ' + os.environ["ACCESS_TOKEN"]}
+    headers = {'Authorization': 'Bearer ' + os.environ["YELP_ACCESS_TOKEN"]}
 
     # search params limit response to one restaurant
-    params = dict(term=term, location=location, limit=1)
+    params = {"term": term, "location": location, "limit": 1}
 
     # get first restaurant that matches search terms from Yelp API
     response = requests.get('https://api.yelp.com/v3/businesses/search',

@@ -44,6 +44,7 @@ def create_acct():
     city = request.form.get("city")
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
+    cuisine = request.form.get("cuisine")
 
     existing_user = User.query.filter(User.email == email).first()
 
@@ -55,7 +56,9 @@ def create_acct():
                         st_address=st_address,
                         city=city,
                         state=state,
-                        zipcode=zipcode)
+                        zipcode=zipcode,
+                        # need fix - currently this creates new duplicate cuisine in cuisine table
+                        cuisine=Cuisine(cuisine_name=cuisine))
 
         db.session.add(new_user)
         db.session.commit()

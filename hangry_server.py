@@ -89,6 +89,11 @@ def search():
 def show_results():
     """Show results of user's search - factor in user location."""
 
+    # this route will need to call 3 functions - search_eatstreet and
+    # get_restaurant_list from eatstreet.py, and get_yelp_rating from yelp.py
+    # will pass values to search-results template and to jinja for loop to 
+    # parse results
+
     pass
 
 

@@ -23,30 +23,32 @@ def get_access_token():
     return access_token
 
 
-def get_yelp_rating(term, location):
+def get_yelp_rating(restaurant):
     """Gets Yelp rating for restaurant.
 
-    Args: term is string name of restaurant
-          location is string street address of restaurant
-          location can also be city and state - param is flexible
+    Args: restaurant is a tuple with restaurant name at index 0 and full
+          restaurant address at index 1.  get_yelp_rating function to be
+          used in conjunction with search_eatstreet and get_restaurant_info
+          functions from eatstreet.py file.
+
 
     Return value is float between 1 and 5."""
 
     # headers contain authentication information
-    headers = {'Authorization': 'Bearer ' + os.environ["YELP_ACCESS_TOKEN"]}
+    headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
 
     # search params limit response to one restaurant
-    params = {"term": term, "location": location, "limit": 1}
+    params = {"term": restaurant[0], "location": restaurant[1], "limit": 1}
 
     # get first restaurant that matches search terms from Yelp API
-    response = requests.get('https://api.yelp.com/v3/businesses/search',
+    response = requests.get("https://api.yelp.com/v3/businesses/search",
                             params=params,
                             headers=headers)
 
     result = response.json()
 
     # get restaurant rating from API response
-    rating = result['businesses'][0]['rating']
+    rating = result["businesses"][0]["rating"]
 
     print rating
     return rating

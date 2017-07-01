@@ -2,6 +2,7 @@
 
 import requests
 import os
+from yelp import get_yelp_rating
 
 
 def search_eatstreet(term, address):
@@ -27,3 +28,24 @@ def search_eatstreet(term, address):
     restaurants = result["restaurants"]
 
     return restaurants
+
+
+def get_restaurant_list(search_result):
+    """Extracts restaurant info for each restaurant in search_eatstreet result.
+
+    Args: list of restaurant dicts obtained by using search_eatstreet function
+
+    Returns each restaurant's name and full address as a list of tuples."""
+
+    restaurant_list = []
+
+    for restaurant in search_result:
+        name = restaurant['name']
+        street_address = restaurant['streetAddress']
+        city = restaurant['city']
+        state = restaurant['state']
+        zipcode = restaurant['zip']
+        full_address = street_address + ' ' + city + ' ' + state + ' ' + zipcode
+        restaurant_list.append((name, full_address))
+
+    return restaurant_list

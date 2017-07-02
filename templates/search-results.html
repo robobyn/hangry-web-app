@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-You searched for {{ search_term }}
+<h1>Get ready to eat, {{ user.username }}</h1>
+
+<h3>You searched for {{ search_term }}, here are your results</h3>
+
+<ul>
+  {% for restaurant in {{ eatstreet_options }} %}
+    <li>restaurant[0]<li>
+  {% endfor %}
+</ul>
+
+<ul>
+  {% for rating in {{ yelp_ratings }} %}
+    <li>rating</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

@@ -23,7 +23,7 @@ def get_access_token():
     return access_token
 
 
-def get_yelp_rating(restaurant):
+def get_yelp_rating(restaurant, location):
     """Gets Yelp rating for restaurant.
 
     Args: restaurant is a tuple with restaurant name at index 0 and full
@@ -38,7 +38,7 @@ def get_yelp_rating(restaurant):
     headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
 
     # search params limit response to one restaurant
-    params = {"term": restaurant[0], "location": restaurant[1], "limit": 1}
+    params = {"term": restaurant, "location": location, "limit": 1}
 
     # get first restaurant that matches search terms from Yelp API
     response = requests.get("https://api.yelp.com/v3/businesses/search",

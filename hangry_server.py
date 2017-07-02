@@ -114,9 +114,25 @@ def show_results():
     # parse results
 
     search_term = request.args.get("search")
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+    address = user.st_address
+    city = user.city
+    state = user.state
+    zipcode = user.zipcode
+    full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+
+    eatstreet_json = search_eatstreet(search_term, full_address)
+    eatstreet_options = get_restaurant_list(eatstreet_json)
+    restaurant_name = str(eatstreet_options[0])
+    restaurant_address = str(eatstreet_options[1])
+    yelp_ratings = get_yelp_rating(restaurant_name, restaurant_address)
 
     return render_template("search-results.html",
-                           search_term=search_term)
+                           search_term=search_term,
+                           user=user,
+                           eatstreet_options=eatstreet_options,
+                           yelp_ratings=yelp_ratings,)
 
 
 @app.route("/login", methods=["POST"])

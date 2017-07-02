@@ -5,6 +5,8 @@ from flask import redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from data_model import connect_to_db, db, User, Cuisine
+from eatstreet import search_eatstreet, get_restaurant_list
+from yelp import get_yelp_rating
 
 
 app = Flask(__name__)
@@ -111,7 +113,10 @@ def show_results():
     # will pass values to search-results template and to jinja for loop to
     # parse results
 
-    pass
+    search_term = request.args.get("search")
+
+    return render_template("search-results.html",
+                           search_term=search_term)
 
 
 @app.route("/login", methods=["POST"])

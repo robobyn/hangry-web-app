@@ -25,7 +25,7 @@ class Cuisine(db.Model):
         """Provide representation of object when printed"""
 
         return "<Cuisine cuisine_id={} cuisine_name={}>".format(self.cuisine_id,
-                                                               self.cuisine_name)
+                                                                self.cuisine_name)
 
 
 class User(db.Model):
@@ -50,8 +50,8 @@ class User(db.Model):
     def __repr__(self):
         """Provide representation of User when printed."""
 
-        return "<User user_id={} username={}".format(self.user_id,
-                                                     self.username)
+        return "<User user_id={} username={}>".format(self.user_id,
+                                                      self.username)
 
     cuisine = db.relationship("Cuisine", backref=db.backref("cuisines"))
 

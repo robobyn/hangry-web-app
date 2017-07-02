@@ -124,15 +124,19 @@ def show_results():
 
     eatstreet_json = search_eatstreet(search_term, full_address)
     eatstreet_options = get_restaurant_list(eatstreet_json)
-    restaurant_name = str(eatstreet_options[0])
-    restaurant_address = str(eatstreet_options[1])
-    yelp_ratings = get_yelp_rating(restaurant_name, restaurant_address)
+
+    restaurant_list = []
+
+    for restaurant in eatstreet_options:
+        restaurant_name = restaurant[0]
+        restaurant_address = restaurant[1]
+        yelp_rating = get_yelp_rating(restaurant_name, restaurant_address)
+        restaurant_list.append((restaurant_name, yelp_rating))
 
     return render_template("search-results.html",
                            search_term=search_term,
                            user=user,
-                           eatstreet_options=eatstreet_options,
-                           yelp_ratings=yelp_ratings,)
+                           restaurant_list=restaurant_list,)
 
 
 @app.route("/login", methods=["POST"])

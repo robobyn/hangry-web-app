@@ -6,15 +6,11 @@
 <h3>You searched for {{ search_term }}, here are your results</h3>
 
 <ul>
-  {% for restaurant in {{ eatstreet_options }} %}
-    <li>restaurant[0]<li>
+  {% for restaurant in restaurant_list %}
+    <li>Restaurant = {{ restaurant[0] }}: Yelp Rating = {{ restaurant[1] }}<li>
   {% endfor %}
 </ul>
 
-<ul>
-  {% for rating in {{ yelp_ratings }} %}
-    <li>rating</li>
-    {% endfor %}
-</ul>
+
 
 {% endblock %}

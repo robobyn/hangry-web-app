@@ -14,6 +14,10 @@
 
   {% block content %} put your content here {% endblock %}
 
+  {% if session %}
+    <a href="/logout">Log Out</a>
+  {% endif %}
+
 </body>
 
 </html>

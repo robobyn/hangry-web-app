@@ -75,16 +75,24 @@ def create_acct():
 def show_user(user_id):
     """Shows user's profile page."""
 
-    user = User.query.get(user_id)
-    address = user.st_address
-    city = user.city
-    state = user.state
-    zipcode = user.zipcode
-    full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+    if not session:
 
-    return render_template("profile.html",
-                           user=user,
-                           address=full_address,)
+        flash("You need to login to see your profile page")
+
+        return redirect("/")
+
+    else:
+
+        user = User.query.get(user_id)
+        address = user.st_address
+        city = user.city
+        state = user.state
+        zipcode = user.zipcode
+        full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+
+        return render_template("profile.html",
+                               user=user,
+                               address=full_address,)
 
 
 @app.route("/search")
@@ -136,6 +144,15 @@ def log_user_in():
 
             flash("You've successfully logged in")
             return redirect("/profile/%s" % user_id)
+
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    del session["user_id"]
+    flash("You've logged out, but we'll be here next time you're Hangry.")
+    return redirect("/")
 
 
 if __name__ == "__main__":

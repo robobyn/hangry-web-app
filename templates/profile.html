@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Hey, {{ user.username }} !</h1><br>
+
+<h3>Before you search, make sure your delivery info is correct</h3><br>
+
+<p>Delivery address: {{ address }} <br>
+   Favorite cuisine: {{ user.fav_cuisine }}
+</p><br>
+
+<form action="/search-results" method="get">
+  What are you craving? <input type="text" name="search" id="search"><br>
+  <input type="submit" value="I'm so Hangry!">
+</form>
+
+{% endblock %}

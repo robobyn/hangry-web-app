@@ -2,7 +2,7 @@
 
 import requests
 import os
-from yelp import get_yelp_rating
+import json
 
 
 def search_eatstreet(term, address):

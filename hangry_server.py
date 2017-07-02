@@ -63,19 +63,28 @@ def create_acct():
         db.session.add(new_user)
         db.session.commit()
 
-        flash("You successfully created an account")
-        return redirect("/")
+        flash("You successfully created an account, start your search below!")
+        return redirect("/profile/%s" % new_user.user_id)
 
     else:
-        flash("That e-mail address is already in use!  Login at the homepage or try a different email.")
+        flash("That e-mail address is already in use!  Login at our homepage or try a different email.")
         return redirect("/create-account")
 
 
-@app.route("/profile")  # will need route to go to specific user page
-def show_user():
+@app.route("/profile/<user_id>")  # will need route to go to specific user page
+def show_user(user_id):
     """Shows user's profile page."""
 
-    pass
+    user = User.query.get(user_id)
+    address = user.st_address
+    city = user.city
+    state = user.state
+    zipcode = user.zipcode
+    full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+
+    return render_template("profile.html",
+                           user=user,
+                           address=full_address,)
 
 
 @app.route("/search")
@@ -91,7 +100,7 @@ def show_results():
 
     # this route will need to call 3 functions - search_eatstreet and
     # get_restaurant_list from eatstreet.py, and get_yelp_rating from yelp.py
-    # will pass values to search-results template and to jinja for loop to 
+    # will pass values to search-results template and to jinja for loop to
     # parse results
 
     pass
@@ -126,7 +135,7 @@ def log_user_in():
             session["user_id"] = user_id
 
             flash("You've successfully logged in")
-            return redirect("/")
+            return redirect("/profile/%s" % user_id)
 
 
 if __name__ == "__main__":

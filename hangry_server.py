@@ -65,6 +65,8 @@ def create_acct():
         db.session.add(new_user)
         db.session.commit()
 
+        session["user_id"] = new_user.user_id
+
         flash("You successfully created an account, start your search below!")
         return redirect("/profile/%s" % new_user.user_id)
 
@@ -73,7 +75,7 @@ def create_acct():
         return redirect("/create-account")
 
 
-@app.route("/profile/<user_id>")  # will need route to go to specific user page
+@app.route("/profile/<user_id>")
 def show_user(user_id):
     """Shows user's profile page."""
 
@@ -104,14 +106,9 @@ def search():
     pass
 
 
-@app.route("/search-results")  # need route to show results specific to search
+@app.route("/search-results")
 def show_results():
     """Show results of user's search - factor in user location."""
-
-    # this route will need to call 3 functions - search_eatstreet and
-    # get_restaurant_list from eatstreet.py, and get_yelp_rating from yelp.py
-    # will pass values to search-results template and to jinja for loop to
-    # parse results
 
     search_term = request.args.get("search")
     user_id = session["user_id"]

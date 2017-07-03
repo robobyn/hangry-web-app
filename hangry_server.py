@@ -18,7 +18,17 @@ app.secret_key = "ABCD"  # need to create secret key & fill this in
 def homepage():
     """Homepage shows user login or acct creation link."""
 
-    return render_template("homepage.html")
+    if "user_id" in session:
+
+        user_id = session["user_id"]
+        user = User.query.get(user_id)
+
+        return render_template("homepage.html",
+                               user=user,)
+
+    else:
+
+        return render_template("homepage.html")
 
 
 @app.route("/create-account")
@@ -184,7 +194,6 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
-    # Use the DebugToolbar
-    # DebugToolbarExtension(app)  # need secret key for this to work
+    DebugToolbarExtension(app)
 
     app.run(port=5000, host="0.0.0.0")

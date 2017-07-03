@@ -4,20 +4,35 @@
 <h1>Hangry</h1>
 <h3>For when you're so hungry you can't even.</h3>
 
-<h2>Login</h2>
+{% if not session["user_id"] %}
 
-  <form action="/login" method="POST">
-    E-mail address: 
-    <input type="email" name="email" required><br><br>
-    Password (must be 4 to 12 characters): 
-    <input type="password" name="password"><br><br>
-    <input type="submit" value="Login">
-  </form>
+  <h2>Login</h2>
 
-<h2>New to Hangry?</h2>
-<p><a href="/create-account">Click here </a>to get started<br>
-  We know you're hangry, but we promise it'll only take a minute to create your
-  account.
-</p>
+    <form action="/login" method="POST">
+      E-mail address: 
+      <input type="email" name="email" required><br><br>
+      Password (must be 4 to 12 characters): 
+      <input type="password" name="password"><br><br>
+      <input type="submit" value="Login">
+    </form>
+
+  <h2>New to Hangry?</h2>
+  <p><a href="/create-account">Click here </a>to get started<br>
+    We know you're hangry, but we promise it'll only take a minute to create your
+    account.
+  </p>
+
+{% else %}
+  <h2>Hi, {{ user.username }}!</h2>
+
+  <form action="/search-results" method="get">
+  What are you craving? <input type="text" name="home-search" id="home-search">
+  <br>
+  <input type="submit" value="I'm so Hangry!">
+  </form><br><br>
+
+  <a href="/profile<user_id>">View your profile</a><br>
+
+{% endif %}
 
 {% endblock %}

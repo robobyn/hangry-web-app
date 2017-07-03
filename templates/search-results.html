@@ -6,8 +6,8 @@
 <h3>You searched for {{ search_term }}, here are your results</h3>
 
 <ul>
-  {% for restaurant in restaurant_list %}
-    <li>Restaurant = {{ restaurant[0] }}: Yelp Rating = {{ restaurant[1] }}<li>
+  {% for name, yelp_rating in restaurant_list %}
+    <li>Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}<li>
   {% endfor %}
 </ul>
 

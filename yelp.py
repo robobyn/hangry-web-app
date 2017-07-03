@@ -26,11 +26,12 @@ def get_access_token():
 def get_yelp_rating(restaurant, location):
     """Gets Yelp rating for restaurant.
 
-    Args: restaurant is a tuple with restaurant name at index 0 and full
-          restaurant address at index 1.  get_yelp_rating function to be
-          used in conjunction with search_eatstreet and get_restaurant_info
-          functions from eatstreet.py file.
+    Args: restaurant:
+                a tuple with restaurant name at index 0 and full
+                restaurant address at index 1.
 
+    get_yelp_rating function to be used in conjunction with search_eatstreet
+    and get_restaurant_info functions from eatstreet.py file.
 
     Return value is float between 1 and 5."""
 
@@ -50,5 +51,4 @@ def get_yelp_rating(restaurant, location):
     # get restaurant rating from API response
     rating = result["businesses"][0]["rating"]
 
-    print rating
     return rating

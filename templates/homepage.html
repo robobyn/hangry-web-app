@@ -4,7 +4,7 @@
 <h1>Hangry</h1>
 <h3>For when you're so hungry you can't even.</h3>
 
-{% if not session["user_id"] %}
+{% if "user_id" not in session %}
 
   <h2>Login</h2>
 

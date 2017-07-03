@@ -3,29 +3,31 @@
 from flask_sqlalchemy import SQLAlchemy
 
 # data-model.py connects to PostgreSQL database through flask-sqlalchemy
-# tables/classes include User, Cuisine, and Delivery Services
+# tables/classes include User, Cuisine
 # Upon account creation User chooses favorite cuisine type - will be foreign
-# key that references Cuisines table - Delivery Services is independent of
-# other 2 tables/classes
+# key that references Cuisines table
 
 db = SQLAlchemy()
 
 
-class Cuisine(db.Model):
-    """Type of cuisine available for User to search or favorite."""
+# probably will delete Cuisine class from model
+# may want to use if decide to track most popular user searches etc.
 
-    __tablename__ = "cuisines"
+# class Cuisine(db.Model):
+#     """Type of cuisine available for User to search or favorite."""
 
-    cuisine_id = db.Column(db.Integer,
-                           autoincrement=True,
-                           primary_key=True)
-    cuisine_name = db.Column(db.String(30), nullable=False)
+#     __tablename__ = "cuisines"
 
-    def __repr__(self):
-        """Provide representation of object when printed"""
+#     cuisine_id = db.Column(db.Integer,
+#                            autoincrement=True,
+#                            primary_key=True)
+#     cuisine_name = db.Column(db.String(30), nullable=False)
 
-        return "<Cuisine cuisine_id={} cuisine_name={}>".format(self.cuisine_id,
-                                                                self.cuisine_name)
+#     def __repr__(self):
+#         """Provide representation of object when printed"""
+
+#         return "<Cuisine cuisine_id={} cuisine_name={}>".format(self.cuisine_id,
+#                                                                 self.cuisine_name)
 
 
 class User(db.Model):
@@ -43,17 +45,13 @@ class User(db.Model):
     city = db.Column(db.String(45), nullable=False, default="San Francisco")
     state = db.Column(db.String(2), nullable=False, default="CA")
     zipcode = db.Column(db.String(5), nullable=False)
-    fav_cuisine = db.Column(db.Integer,
-                            db.ForeignKey("cuisines.cuisine_id"),
-                            nullable=True)
+    fav_cuisine = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         """Provide representation of User when printed."""
 
         return "<User user_id={} username={}>".format(self.user_id,
                                                       self.username)
-
-    cuisine = db.relationship("Cuisine", backref=db.backref("cuisines"))
 
 
 def connect_to_db(app):

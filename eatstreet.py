@@ -19,9 +19,10 @@ def search_eatstreet(term, address):
     params = {"street-address": address, "method": 'delivery', "search": term}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get("https://api.eatstreet.com/publicapi/v1/restaurant/search?",
-                            params=params,
-                            headers=headers)
+    response = requests.get(
+        "https://api.eatstreet.com/publicapi/v1/restaurant/search?",
+        params=params,
+        headers=headers)
 
     result = response.json()
 
@@ -45,7 +46,8 @@ def get_restaurant_list(search_result):
         city = restaurant['city']
         state = restaurant['state']
         zipcode = restaurant['zip']
-        full_address = street_address + ' ' + city + ' ' + state + ' ' + zipcode
+        full_address = "{} {}, {} {}".format(street_address, city, state,
+                                             zipcode)
         restaurant_list.append((name, full_address))
 
     return restaurant_list

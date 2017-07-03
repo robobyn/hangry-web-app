@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Hey, {{ user.username }} !</h1><br>
+<h1>Hey, {{ user.username }}!</h1><br>
 
 <h3>Before you search, make sure your delivery info is correct</h3><br>
 
@@ -10,7 +10,7 @@
 </p><br>
 
 <form action="/search-results" method="get">
-  What are you craving? <input type="text" name="search" id="search"><br>
+  What are you craving? <input type="text" name="search" id="search"><br><br>
   <input type="submit" value="I'm so Hangry!">
 </form><br><br>
 

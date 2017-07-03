@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template
 from flask import redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from data_model import connect_to_db, db, User, Cuisine
+from data_model import connect_to_db, db, User
 from eatstreet import search_eatstreet, get_restaurant_list
 from yelp import get_yelp_rating
 
@@ -12,6 +12,8 @@ from yelp import get_yelp_rating
 app = Flask(__name__)
 
 app.secret_key = "ABCD"  # need to create secret key & fill this in
+
+ADDRESS_FORMAT = "{} {}, {} {}"
 
 
 @app.route("/")
@@ -35,10 +37,7 @@ def homepage():
 def show_acct_form():
     """Display form to create Hangry account."""
 
-    categories = db.session.query(Cuisine.cuisine_name).all()
-
-    return render_template("create-account.html",
-                           categories=categories)
+    return render_template("create-account.html",)
 
 
 @app.route("/create-account", methods=["POST"])
@@ -69,8 +68,7 @@ def create_acct():
                         city=city,
                         state=state,
                         zipcode=zipcode,
-                        # need fix - currently this creates new duplicate cuisine in cuisine table
-                        cuisine=Cuisine(cuisine_name=cuisine))
+                        fav_cuisine=cuisine)
 
         db.session.add(new_user)
         db.session.commit()
@@ -78,20 +76,40 @@ def create_acct():
         session["user_id"] = new_user.user_id
 
         flash("You successfully created an account, start your search below!")
-        return redirect("/profile/%s" % new_user.user_id)
+        return redirect("/profile/{}".format(new_user.user_id))
 
     else:
         flash("That e-mail address is already in use!  Login at our homepage or try a different email.")
         return redirect("/create-account")
 
 
-@app.route("/profile/<user_id>")
+@app.route("/update-account", methods=["GET"])
+def show_update_form():
+    """Shows user form to update account info."""
+
+    return render_template("update-account.html")
+
+
+@app.route("/update-account", methods=["POST"])
+def update_user_info():
+    """Changes user's profile DB to reflect info from form."""
+
+    pass
+
+
+@app.route("/profile/<int:user_id>")
 def show_user(user_id):
     """Shows user's profile page."""
 
-    if not session:
+    if "user_id" not in session:
 
         flash("You need to login to see your profile page")
+
+        return redirect("/")
+
+    elif session['user_id'] != user_id:
+
+        flash("That's not allowed, you dirty hacker.")
 
         return redirect("/")
 
@@ -102,18 +120,20 @@ def show_user(user_id):
         city = user.city
         state = user.state
         zipcode = user.zipcode
-        full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+        full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
 
         return render_template("profile.html",
                                user=user,
                                address=full_address,)
 
 
-@app.route("/search")
-def search():
-    """Display search form - search by cuisine or restaurant name."""
+# @app.route("/search")
+# def search():
+#     """Display search form - search by cuisine or restaurant name."""
 
-    pass
+#     pass
+
+# may or may not need search route - search form currently on home and prof page
 
 
 @app.route("/search-results")
@@ -127,7 +147,7 @@ def show_results():
     city = user.city
     state = user.state
     zipcode = user.zipcode
-    full_address = address + ' ' + city + ' ' + state + ' ' + zipcode
+    full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
 
     eatstreet_json = search_eatstreet(search_term, full_address)
     eatstreet_options = get_restaurant_list(eatstreet_json)
@@ -175,7 +195,7 @@ def log_user_in():
             session["user_id"] = user_id
 
             flash("You've successfully logged in")
-            return redirect("/profile/%s" % user_id)
+            return redirect("/profile/{}".format(user_id))
 
 
 @app.route("/logout")

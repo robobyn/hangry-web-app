@@ -14,6 +14,8 @@ app = Flask(__name__)
 app.secret_key = "ABCD"  # need to create secret key & fill this in
 
 ADDRESS_FORMAT = "{} {}, {} {}"
+COMMON_SEARCH_TERMS = ["Pizza", "Sandwiches", "Italian", "Sushi", "Chinese",
+                       "Burgers", "Wings", "Indian", "Mexican", "Desserts"]
 
 
 @app.route("/")
@@ -163,7 +165,8 @@ def show_results():
     return render_template("search-results.html",
                            search_term=search_term,
                            user=user,
-                           restaurant_list=restaurant_list,)
+                           restaurant_list=restaurant_list,
+                           cuisines=COMMON_SEARCH_TERMS,)
 
 
 @app.route("/login", methods=["POST"])

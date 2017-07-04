@@ -8,13 +8,28 @@
 
   <ul>
     {% for name, yelp_rating in restaurant_list %}
-      <li>Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}<li>
+      <li>Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}</li>
     {% endfor %}
-  </ul>
+  </ul><br>
+
+  <p>
+    <form action="/search-results" method="get">
+      Search Again: <input type="text" name="search">
+      <input type="submit" value="Let's try again">
+    </form>
+  </p>
+
 {% else %}
   <h1>OMG, {{ user.username }}, no restaurants match your search for
     {{ search_term }}.</h1>
   <h3>That's sad.</h3>
+
+  <p>
+    <form action="/search-results" method="get">
+      Search Again: <input type="text" name="search">
+      <input type="submit" value="Let's try again">
+    </form>
+  </p>
 
   <p>Try one of these common search terms:<br>
     <form action="/search-results" method="GET">
@@ -23,8 +38,9 @@
         <option value={{ cuisine }}>{{ cuisine }}</option>
         {% endfor %}
       </select>
-      <input type="submit" value="Let's try again"><br><br>
+      <input type="submit" value="I just wanna eat!"><br><br>
     </form>
+  </p>
 {% endif %}
 
 

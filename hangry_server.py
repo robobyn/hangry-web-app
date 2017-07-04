@@ -15,7 +15,8 @@ app.secret_key = "ABCD"  # need to create secret key & fill this in
 
 ADDRESS_FORMAT = "{} {}, {} {}"
 COMMON_SEARCH_TERMS = ["Pizza", "Sandwiches", "Italian", "Sushi", "Chinese",
-                       "Burgers", "Wings", "Indian", "Mexican", "Desserts"]
+                       "Burgers", "Wings", "Indian", "Mexican", "Desserts",
+                       "Thai", "Salads"]
 
 
 @app.route("/")

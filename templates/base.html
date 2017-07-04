@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
   <title>Hangry</title>
 </head>
 
 <body>
-  
-  <ul>
-    {% for message in get_flashed_messages() %}
-      <li>{{ message }}</li>
-    {% endfor %}
-  </ul> 
 
-  {% block content %} put your content here {% endblock %}
+  <div class="container"> 
+    <ul>
+      {% for message in get_flashed_messages() %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    <a href="/" name="home">Homepage</a>
 
-  {% if "user_id" in session %}
-    <a href="/logout">Log Out</a>
-  {% endif %}
+    {% block content %} put your content here {% endblock %}
+
+    {% if "user_id" in session %}
+      <a href="/logout">Log Out</a>
+    {% endif %}
+  </div>
+
+  <script src="http://code.jquery.com/jquery.js"></script>
 
 </body>
 

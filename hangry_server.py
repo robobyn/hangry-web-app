@@ -17,6 +17,58 @@ ADDRESS_FORMAT = "{} {}, {} {}"
 COMMON_SEARCH_TERMS = ["Pizza", "Sandwiches", "Italian", "Sushi", "Chinese",
                        "Burgers", "Wings", "Indian", "Mexican", "Desserts",
                        "Thai", "Salads"]
+US_STATES = us_state_abbrev = {
+    'Alabama': 'AL',
+    'Alaska': 'AK',
+    'Arizona': 'AZ',
+    'Arkansas': 'AR',
+    'California': 'CA',
+    'Colorado': 'CO',
+    'Connecticut': 'CT',
+    'Delaware': 'DE',
+    'Florida': 'FL',
+    'Georgia': 'GA',
+    'Hawaii': 'HI',
+    'Idaho': 'ID',
+    'Illinois': 'IL',
+    'Indiana': 'IN',
+    'Iowa': 'IA',
+    'Kansas': 'KS',
+    'Kentucky': 'KY',
+    'Louisiana': 'LA',
+    'Maine': 'ME',
+    'Maryland': 'MD',
+    'Massachusetts': 'MA',
+    'Michigan': 'MI',
+    'Minnesota': 'MN',
+    'Mississippi': 'MS',
+    'Missouri': 'MO',
+    'Montana': 'MT',
+    'Nebraska': 'NE',
+    'Nevada': 'NV',
+    'New Hampshire': 'NH',
+    'New Jersey': 'NJ',
+    'New Mexico': 'NM',
+    'New York': 'NY',
+    'North Carolina': 'NC',
+    'North Dakota': 'ND',
+    'Ohio': 'OH',
+    'Oklahoma': 'OK',
+    'Oregon': 'OR',
+    'Pennsylvania': 'PA',
+    'Rhode Island': 'RI',
+    'South Carolina': 'SC',
+    'South Dakota': 'SD',
+    'Tennessee': 'TN',
+    'Texas': 'TX',
+    'Utah': 'UT',
+    'Vermont': 'VT',
+    'Virginia': 'VA',
+    'Washington': 'WA',
+    'West Virginia': 'WV',
+    'Wisconsin': 'WI',
+    'Wyoming': 'WY',
+}
 
 
 @app.route("/")
@@ -40,7 +92,8 @@ def homepage():
 def show_acct_form():
     """Display form to create Hangry account."""
 
-    return render_template("create-account.html",)
+    return render_template("create-account.html",
+                           all_states=US_STATES,)
 
 
 @app.route("/create-account", methods=["POST"])
@@ -71,7 +124,7 @@ def create_acct():
                         city=city,
                         state=state,
                         zipcode=zipcode,
-                        fav_cuisine=cuisine)
+                        fav_cuisine=cuisine,)
 
         db.session.add(new_user)
         db.session.commit()
@@ -97,7 +150,30 @@ def show_update_form():
 def update_user_info():
     """Changes user's profile DB to reflect info from form."""
 
-    pass
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+
+    user.user_id = user.user_id
+    user.username = request.form.get("username")
+    user.email = request.form.get("email")
+    user.password = user.password
+    user.st_address = request.form.get("address")
+    user.city = request.form.get("city")
+    user.state = request.form.get("state")
+    user.zipcode = request.form.get("zipcode")
+    user.fav_cuisine = request.form.get("cuisine")
+
+    db.session.commit()
+
+    full_address = ADDRESS_FORMAT.format(user.st_address,
+                                         user.city,
+                                         user.state,
+                                         user.zipcode)
+
+    return render_template("profile.html",
+                           user=user,
+                           address=full_address,
+                           all_states=US_STATES,)
 
 
 @app.route("/profile/<int:user_id>")
@@ -106,13 +182,13 @@ def show_user(user_id):
 
     if "user_id" not in session:
 
-        flash("You need to login to see your profile page")
+        flash("You need to login to see your profile page.")
 
         return redirect("/")
 
-    elif session['user_id'] != user_id:
+    elif session["user_id"] != user_id:
 
-        flash("That's not allowed, you dirty hacker.")
+        flash("Woops!  You don't have access to that page.")
 
         return redirect("/")
 
@@ -127,7 +203,8 @@ def show_user(user_id):
 
         return render_template("profile.html",
                                user=user,
-                               address=full_address,)
+                               address=full_address,
+                               all_states=US_STATES,)
 
 
 # @app.route("/search")
@@ -218,6 +295,6 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run(port=5000, host="0.0.0.0")

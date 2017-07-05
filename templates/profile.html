@@ -9,6 +9,30 @@
    Favorite cuisine: {{ user.fav_cuisine }}
 </p><br>
 
+<h3>Update your information</h3>
+<form action="/update-account" method="post">
+  Username:
+  <input type="text" name="username" value="{{ user.username }}"><br>
+  Email:
+  <input type="text" name="email" value="{{ user.email }}"><br>
+  Street Address:
+  <input type="text" name="address" value="{{ user.st_address }}"><br>
+  City:
+  <input type="text" name="city" value="{{ user.city }}"><br>
+  State:
+  <select name="state">
+    {% for state, abbr in all_states.items()|sort %}
+      <option value="{{ abbr }}">{{ state }}</option>
+    {% endfor %}
+  </select><br><br>
+  Zipcode:
+  <input type="text" name="zipcode" value="{{ user.zipcode }}"><br>
+  Favorite type of restaurant:
+  <input type="text" name="cuisine" value="{{ user.fav_cuisine }}"><br><br>
+  <input type="submit" value="Update">
+</form><br>
+
+<h3>Search by restaurant or cuisine</h3>
 <form action="/search-results" method="get">
   What are you craving? <input type="text" name="search" id="search"><br><br>
   <input type="submit" value="I'm so Hangry!">

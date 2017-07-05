@@ -42,8 +42,8 @@ class User(db.Model):
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(15), nullable=False)
     st_address = db.Column(db.String(64), nullable=False)
-    city = db.Column(db.String(45), nullable=False, default="San Francisco")
-    state = db.Column(db.String(2), nullable=False, default="CA")
+    city = db.Column(db.String(45), nullable=False)
+    state = db.Column(db.String(2), nullable=False)
     zipcode = db.Column(db.String(5), nullable=False)
     fav_cuisine = db.Column(db.String(30), nullable=False)
 

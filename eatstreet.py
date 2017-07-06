@@ -77,23 +77,18 @@ def get_cuisine_count(address):
 
     restaurants = result["restaurants"]
 
-    cuisine_list = []
+    cuisine_count = {}
 
     for restaurant in restaurants:
         food_types = restaurant['foodTypes']
 
         for cuisine in food_types:
-            cuisine_list.append(cuisine)
+            first_word = cuisine.split(' ')[0]
 
-    cuisine_count = {}
+            if first_word not in cuisine_count:
+                cuisine_count[first_word] = 1
 
-    for cuisine in cuisine_list:
-        first_word = cuisine.split(' ')[0]
-
-        if first_word not in cuisine_count:
-            cuisine_count[first_word] = 1
-
-        else:
-            cuisine_count[first_word] += 1
+            else:
+                cuisine_count[first_word] += 1
 
     return cuisine_count

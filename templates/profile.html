@@ -9,8 +9,8 @@
    Favorite cuisine: {{ user.fav_cuisine }}
 </p><br>
 
-<h3>Update your information</h3>
-<form action="/update-account" method="post">
+<button type="button" id="update">Update your information</button>
+<form action="/update-account" class="hidden" id="updateform" method="post">
   Username:
   <input type="text" name="username" value="{{ user.username }}"><br>
   Email:
@@ -29,8 +29,9 @@
   <input type="text" name="zipcode" value="{{ user.zipcode }}"><br>
   Favorite type of restaurant:
   <input type="text" name="cuisine" value="{{ user.fav_cuisine }}"><br><br>
-  <input type="submit" value="Update">
-</form><br>
+  <input type="submit" value="Submit">
+</form>
+<br>
 
 <h3>Search by restaurant or cuisine</h3>
 <form action="/search-results" method="get">

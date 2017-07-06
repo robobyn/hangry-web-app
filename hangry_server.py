@@ -139,13 +139,6 @@ def create_acct():
         return redirect("/create-account")
 
 
-@app.route("/update-account", methods=["GET"])
-def show_update_form():
-    """Shows user form to update account info."""
-
-    return render_template("update-account.html")
-
-
 @app.route("/update-account", methods=["POST"])
 def update_user_info():
     """Changes user's profile DB to reflect info from form."""

@@ -1,7 +1,7 @@
 var options = {
-      responsive: true
+      responsive: false,
+      maintainAspectRatio: false
     };
-
 
 var ctx = $("#donutChart").get(0).getContext("2d");
 

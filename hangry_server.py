@@ -5,7 +5,8 @@ from flask import redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from data_model import connect_to_db, db, User
-from eatstreet import search_eatstreet, get_restaurant_list
+from eatstreet import search_eatstreet, get_restaurant_list, get_cuisine_count
+from eatstreet import format_chart_data
 from yelp import get_yelp_rating
 
 
@@ -200,13 +201,26 @@ def show_user(user_id):
                                all_states=US_STATES,)
 
 
-# @app.route("/search")
-# def search():
-#     """Display search form - search by cuisine or restaurant name."""
+@app.route("/cuisine-count.json")
+def count_cuisines():
+    """Counts number of restaurants in each category for user's address.
 
-#     pass
+        Uses function get_cuisine_count from eatstreet.py - output is
+        json string to be used in AJAX call to display chart on profile page."""
 
-# may or may not need search route - search form currently on home and prof page
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+    address = user.st_address
+    city = user.city
+    state = user.state
+    zipcode = user.zipcode
+    full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
+
+    cuisine_dict = get_cuisine_count(full_address)
+
+    formatted_dict = format_chart_data(cuisine_dict)
+
+    return jsonify(formatted_dict)
 
 
 @app.route("/search-results")

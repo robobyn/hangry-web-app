@@ -92,3 +92,32 @@ def get_cuisine_count(address):
                 cuisine_count[first_word] += 1
 
     return cuisine_count
+
+
+def format_chart_data(data_dict):
+    """Changes information from get_cuisine_count into format for chartJS."""
+
+    cuisine_list = data_dict.items()
+
+    sorted_cuisines = sorted(cuisine_list, key=lambda x: x[1], reverse=True)
+
+    top_five = sorted_cuisines[0:5]
+
+    labels = []
+    counts = []
+
+    for cuisine in top_five:
+        labels.append(cuisine[0])
+        counts.append(cuisine[1])
+
+    data_dict = {"labels": labels,
+                 "datasets": [{"data": counts,
+                               "backgroundColor": [
+                                   "#AE5E50", "#B67BA4", "#68B1D2", "#5BD8A7",
+                                   "#F3FE72"
+                               ],
+                               "hoverBackgroundColor": [
+                                   "#AE5E50", "#B67BA4", "#68B1D2", "#5BD8A7",
+                                   "#F3FE72"]}]}
+
+    return data_dict

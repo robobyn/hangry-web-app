@@ -7,10 +7,8 @@ import json
 
 def search_eatstreet(term, address):
     """Gets available delivery restaurants from Eat Street API.
-
     Args: term is string type of cuisine or restaurant
           address is user's delivery address
-
     Return value list of restaurant dicts that deliver to user's address."""
 
     # headers contain authentication information

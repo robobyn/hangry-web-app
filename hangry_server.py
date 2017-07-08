@@ -8,68 +8,12 @@ from data_model import connect_to_db, db, User
 from eatstreet import search_eatstreet, get_restaurant_list, get_cuisine_count
 from eatstreet import format_chart_data
 from yelp import get_yelp_rating
-
+from helper_functions import COMMON_SEARCH_TERMS, US_STATES
+from helper_functions import list_with_yelp
 
 app = Flask(__name__)
 
 app.secret_key = "ABCD"  # need to create secret key & fill this in
-
-ADDRESS_FORMAT = "{} {}, {} {}"
-COMMON_SEARCH_TERMS = ["Pizza", "Sandwiches", "Italian", "Sushi", "Chinese",
-                       "Burgers", "Wings", "Indian", "Mexican", "Desserts",
-                       "Thai", "Salads"]
-US_STATES = us_state_abbrev = {
-    'Alabama': 'AL',
-    'Alaska': 'AK',
-    'Arizona': 'AZ',
-    'Arkansas': 'AR',
-    'California': 'CA',
-    'Colorado': 'CO',
-    'Connecticut': 'CT',
-    'Delaware': 'DE',
-    'Florida': 'FL',
-    'Georgia': 'GA',
-    'Hawaii': 'HI',
-    'Idaho': 'ID',
-    'Illinois': 'IL',
-    'Indiana': 'IN',
-    'Iowa': 'IA',
-    'Kansas': 'KS',
-    'Kentucky': 'KY',
-    'Louisiana': 'LA',
-    'Maine': 'ME',
-    'Maryland': 'MD',
-    'Massachusetts': 'MA',
-    'Michigan': 'MI',
-    'Minnesota': 'MN',
-    'Mississippi': 'MS',
-    'Missouri': 'MO',
-    'Montana': 'MT',
-    'Nebraska': 'NE',
-    'Nevada': 'NV',
-    'New Hampshire': 'NH',
-    'New Jersey': 'NJ',
-    'New Mexico': 'NM',
-    'New York': 'NY',
-    'North Carolina': 'NC',
-    'North Dakota': 'ND',
-    'Ohio': 'OH',
-    'Oklahoma': 'OK',
-    'Oregon': 'OR',
-    'Pennsylvania': 'PA',
-    'Rhode Island': 'RI',
-    'South Carolina': 'SC',
-    'South Dakota': 'SD',
-    'Tennessee': 'TN',
-    'Texas': 'TX',
-    'Utah': 'UT',
-    'Vermont': 'VT',
-    'Virginia': 'VA',
-    'Washington': 'WA',
-    'West Virginia': 'WV',
-    'Wisconsin': 'WI',
-    'Wyoming': 'WY',
-}
 
 
 @app.route("/")
@@ -159,10 +103,7 @@ def update_user_info():
 
     db.session.commit()
 
-    full_address = ADDRESS_FORMAT.format(user.st_address,
-                                         user.city,
-                                         user.state,
-                                         user.zipcode)
+    full_address = user.get_full_address()
 
     return render_template("profile.html",
                            user=user,
@@ -189,11 +130,7 @@ def show_user(user_id):
     else:
 
         user = User.query.get(user_id)
-        address = user.st_address
-        city = user.city
-        state = user.state
-        zipcode = user.zipcode
-        full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
+        full_address = user.get_full_address()
 
         return render_template("profile.html",
                                user=user,
@@ -210,11 +147,7 @@ def count_cuisines():
 
     user_id = session["user_id"]
     user = User.query.get(user_id)
-    address = user.st_address
-    city = user.city
-    state = user.state
-    zipcode = user.zipcode
-    full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
+    full_address = user.get_full_address()
 
     cuisine_dict = get_cuisine_count(full_address)
 
@@ -230,22 +163,11 @@ def show_results():
     search_term = request.args.get("search")
     user_id = session["user_id"]
     user = User.query.get(user_id)
-    address = user.st_address
-    city = user.city
-    state = user.state
-    zipcode = user.zipcode
-    full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
+    full_address = user.get_full_address()
 
     eatstreet_json = search_eatstreet(search_term, full_address)
     eatstreet_options = get_restaurant_list(eatstreet_json)
-
-    restaurant_list = []
-
-    for restaurant in eatstreet_options:
-        restaurant_name = restaurant[0]
-        restaurant_address = restaurant[1]
-        yelp_rating = get_yelp_rating(restaurant_name, restaurant_address)
-        restaurant_list.append((restaurant_name, yelp_rating))
+    restaurant_list = list_with_yelp(eatstreet_options)
 
     return render_template("search-results.html",
                            search_term=search_term,

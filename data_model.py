@@ -1,6 +1,7 @@
 """Models and database functions for Hangry project"""
 
 from flask_sqlalchemy import SQLAlchemy
+from helper_functions import ADDRESS_FORMAT
 
 # data-model.py connects to PostgreSQL database through flask-sqlalchemy
 # tables/classes include User, Cuisine
@@ -52,6 +53,19 @@ class User(db.Model):
 
         return "<User user_id={} username={}>".format(self.user_id,
                                                       self.username)
+
+    def get_full_address(self):
+        """Concatenates st_address, city, state, zipcode.
+           Returns full address for user"""
+
+        address = self.st_address
+        city = self.city
+        state = self.state
+        zipcode = self.zipcode
+
+        full_address = ADDRESS_FORMAT.format(address, city, state, zipcode)
+
+        return full_address
 
 
 def connect_to_db(app):

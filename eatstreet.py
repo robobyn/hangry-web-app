@@ -4,11 +4,16 @@ import requests
 import os
 import json
 
+SEARCH_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?"
+MENU_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/{}/menu"
+
 
 def search_eatstreet(term, address):
     """Gets available delivery restaurants from Eat Street API.
+
     Args: term is string type of cuisine or restaurant
           address is user's delivery address
+
     Return value list of restaurant dicts that deliver to user's address."""
 
     # headers contain authentication information
@@ -18,7 +23,7 @@ def search_eatstreet(term, address):
 
     # get restaurants that meet search terms from Eat Street
     response = requests.get(
-        "https://api.eatstreet.com/publicapi/v1/restaurant/search?",
+        SEARCH_URL,
         params=params,
         headers=headers)
 
@@ -44,10 +49,7 @@ def get_restaurant_details(restaurant, address):
               "search": restaurant}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get(
-        "https://api.eatstreet.com/publicapi/v1/restaurant/search?",
-        params=params,
-        headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=headers)
 
     result = response.json()
 
@@ -65,12 +67,8 @@ def get_restaurant_menu(restaurant_info):
 
     api_key = restaurant_info["apiKey"]
     headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
-    params = {"apiKey": api_key}
 
-    response = requests.get(
-        "https://api.eatstreet.com/publicapi/v1/restaurant/{}/menu".format(api_key),
-        params=params,
-        headers=headers)
+    response = requests.get(MENU_URL.format(api_key), headers=headers)
 
     menu = response.json()
 
@@ -114,10 +112,7 @@ def get_cuisine_count(address):
     params = {"street-address": address, "method": "delivery"}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get(
-        "https://api.eatstreet.com/publicapi/v1/restaurant/search?",
-        params=params,
-        headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=headers)
 
     result = response.json()
 

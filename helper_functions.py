@@ -80,4 +80,3 @@ def list_with_yelp(eatstreet_options):
         restaurant_list.append((restaurant_name, yelp_rating))
 
     return restaurant_list
-

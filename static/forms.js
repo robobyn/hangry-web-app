@@ -26,8 +26,21 @@ $(function () {
         var photos = data.photos;
         var menu = data.menu;
 
-        // $("#more-info").html(name, reviews, photos, menu);
-        $("#more-info").html(name);
+        $(".reviews").empty();
+        $(".photos").empty();
+
+        for (var index = 0; index < reviews.length; index++) {
+
+            var rating = reviews[index]["rating"];
+            var reviewText = reviews[index]["text"];
+            $(".reviews").append("Rating: " + rating + ": " + reviewText + "<br><br>");
+
+        }
+
+        for (var i = 0; i < photos.length; i++) {
+            $(".photos").append('<img src=' + photos[i] + ' height="300">');
+        }
+
     }
 
     $(".restaurant").on("click", getMoreInfo);

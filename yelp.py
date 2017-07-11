@@ -106,20 +106,3 @@ def get_reviews(business_id):
     reviews = result["reviews"]
 
     return reviews
-
-
-def parse_reviews(reviews):
-    """Extract relevant data from Yelp reviews.
-
-       Args: yelp reviews come from get_reviews function.
-
-       Returns list of tuples with top 3 ratings & reviews for restaurant."""
-
-    rating_and_text = []
-
-    for review in reviews:
-        rating = review["rating"]
-        review_text = review["text"]
-        rating_and_text.append(rating, review_text)
-
-    return rating_and_text

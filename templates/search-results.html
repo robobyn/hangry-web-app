@@ -5,11 +5,12 @@
   <h1>Get ready to eat, {{ user.username }}</h1>
 
   <h3>You searched for {{ search_term }}, here are your results</h3>
+  <h5>Click a restaurant to display more information</h5>
 
   <div id="restaurant-list" style="display: inline-block">
     <ul>
       {% for name, yelp_rating in restaurant_list %}
-        <li><a href="#" class ="restaurant" id ="{{ name }}">Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}</a></li>
+        <li><a href="#" class ="restaurant" id ="{{ name }}">{{ name }}: Yelp Rating = {{ yelp_rating }}</a></li>
       {% endfor %}
     </ul><br>
   </div>

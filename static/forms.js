@@ -29,6 +29,9 @@ $(function () {
         $(".reviews").empty();
         $(".photos").empty();
 
+        $(".reviews").html("<h3>Top 3 Yelp reviews: </h3>");
+        $(".photos").html("<h3>Photos from " + name + "</h3>");
+
         for (var index = 0; index < reviews.length; index++) {
 
             var rating = reviews[index]["rating"];
@@ -38,7 +41,7 @@ $(function () {
         }
 
         for (var i = 0; i < photos.length; i++) {
-            $(".photos").append('<img src=' + photos[i] + ' height="300">');
+            $(".photos").append('<img src=' + photos[i] + ' height="250">');
         }
 
     }

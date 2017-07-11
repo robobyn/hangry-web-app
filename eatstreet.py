@@ -61,7 +61,7 @@ def get_restaurant_details(restaurant, address):
 def get_restaurant_menu(restaurant_info):
     """Get restaurant's menu from eatstreet.
 
-       Args: input results of get_restaurant_details for restaurant
+       Args: restaurant_info = results of get_restaurant_details for restaurant
 
        Returns restaurant's menu as list of dicts"""
 

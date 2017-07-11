@@ -6,11 +6,15 @@
 
   <h3>You searched for {{ search_term }}, here are your results</h3>
 
-  <ul>
-    {% for name, yelp_rating in restaurant_list %}
-      <li>Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}</li>
-    {% endfor %}
-  </ul><br>
+  <div id="restaurant-list" style="display: inline-block">
+    <ul>
+      {% for name, yelp_rating in restaurant_list %}
+        <li><a href="#" class ="restaurant" id ="{{ name }}">Restaurant = {{ name }}: Yelp Rating = {{ yelp_rating }}</a></li>
+      {% endfor %}
+    </ul><br>
+  </div>
+
+  <div id="more-info" style="display: inline-block"></div>
 
   <p>
     <form action="/search-results" method="get">

@@ -6,8 +6,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from data_model import connect_to_db, db, User
 from eatstreet import search_eatstreet, get_restaurant_list, get_cuisine_count
-from eatstreet import format_chart_data
-from yelp import get_yelp_rating
+from eatstreet import format_chart_data, get_restaurant_details
+from eatstreet import get_restaurant_menu
+from yelp import get_yelp_rating, get_business_id, get_reviews, get_photos
 from helper_functions import COMMON_SEARCH_TERMS, US_STATES
 from helper_functions import list_with_yelp
 
@@ -174,6 +175,30 @@ def show_results():
                            user=user,
                            restaurant_list=restaurant_list,
                            cuisines=COMMON_SEARCH_TERMS,)
+
+
+@app.route("/show-more")
+def show_more_info():
+    """Shows more info for restaurant upon clicking restaurant name.
+
+       JSON response passes to AJAX route in forms.js"""
+
+    restaurant = request.args.get("name")
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+    city = user.city
+
+    yelp_id = get_business_id(restaurant, city)
+    reviews = get_reviews(yelp_id)
+    photos = get_photos(yelp_id)
+
+    eatstreet_details = get_restaurant_details(restaurant, city)
+    menu = get_restaurant_menu(eatstreet_details)
+
+    response = {"status": "success", "name": restaurant, "reviews": reviews,
+                "photos": photos, "menu": menu}
+
+    return jsonify(response)
 
 
 @app.route("/login", methods=["POST"])

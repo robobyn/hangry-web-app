@@ -28,7 +28,10 @@
   State:
   <select name="state">
     {% for state, abbr in all_states.items()|sort %}
-      <option value="{{ abbr }}">{{ state }}</option>
+      <option value="{{ abbr }}" 
+        {% if abbr == user.state %}
+          selected
+        {% endif %} >{{ state }}</option>
     {% endfor %}
   </select><br><br>
   Zipcode:

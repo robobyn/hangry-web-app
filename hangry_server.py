@@ -192,25 +192,25 @@ def show_more_info():
     reviews = get_reviews(yelp_id)
     photos = get_photos(yelp_id)
 
-    eatstreet_details = get_restaurant_details(restaurant, city)
-    menu = get_restaurant_menu(eatstreet_details)
-
-    menu_sections = []
-    menu_items = []
-
-    for section in menu:
-
-        section_name = section["name"]
-        section_items = section["items"]
-        menu_sections.append(section_name)
-        menu_items.append(section_items)
-
     response = {"status": "success", "name": restaurant, "reviews": reviews,
-                "photos": photos, "menuSections": menu_sections,
-                "menuItems": menu_items}
+                "photos": photos}
 
     return jsonify(response)
 
+
+@app.route("/show-menu")
+def show_menu():
+    """Shows restaurant menu on clicking restaurant's menu button."""
+
+    restaurant = request.args.get("name")
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+    city = user.city
+
+    eatstreet_details = get_restaurant_details(restaurant, city)
+    menu = get_restaurant_menu(eatstreet_details)
+
+    return jsonify(menu)
 
 @app.route("/login", methods=["POST"])
 def log_user_in():

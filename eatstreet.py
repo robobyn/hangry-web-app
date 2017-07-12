@@ -66,6 +66,7 @@ def get_restaurant_menu(restaurant_info):
        Returns restaurant's menu as list of dicts"""
 
     api_key = restaurant_info["apiKey"]
+
     headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
 
     response = requests.get(MENU_URL.format(api_key), headers=headers)

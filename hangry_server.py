@@ -195,8 +195,19 @@ def show_more_info():
     eatstreet_details = get_restaurant_details(restaurant, city)
     menu = get_restaurant_menu(eatstreet_details)
 
+    menu_sections = []
+    menu_items = []
+
+    for section in menu:
+
+        section_name = section["name"]
+        section_items = section["items"]
+        menu_sections.append(section_name)
+        menu_items.append(section_items)
+
     response = {"status": "success", "name": restaurant, "reviews": reviews,
-                "photos": photos, "menu": menu}
+                "photos": photos, "menuSections": menu_sections,
+                "menuItems": menu_items}
 
     return jsonify(response)
 

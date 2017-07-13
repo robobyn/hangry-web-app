@@ -21,17 +21,22 @@
 
   <div class="reviews" style="display: inline-block"></div>
   <div class="photos" style="display: inline-block"></div>
+  <div id="menu"></div>
+
+  {% raw %}
 
   <script id="menu-template" type="text/x-handlebars-template">
 
     {{#each menu}}
-      <p>{{name}}</p>
+      <h3>{{name}}</h3>
       {{#each items}}
-        {{name}} {{description}} {{basePrice}}
+        {{name}}: {{description}} ${{basePrice}}<br>
       {{/each}}
     {{/each}}
 
   </script>
+
+  {% endraw %}
 
   <p>
     <form action="/search-results" method="get">
@@ -64,5 +69,12 @@
   </p>
 {% endif %}
 
+
+{% endblock %}
+
+{% block scripts %}
+
+  <script src="/static/more_info.js"></script>
+  <script src="/static/menu.js"></script>
 
 {% endblock %}

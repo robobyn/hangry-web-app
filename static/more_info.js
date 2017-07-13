@@ -51,7 +51,7 @@ function showPhotos(photos) {
 
     for (var i = 0; i < photos.length; i++) {
 
-        $(".photos").append('<img src=' + photos[i] + ' height="250">');
+        $(".photos").append('<img src=' + photos[i] + ' height="250">&nbsp;');
 
     }
 

@@ -1,3 +1,36 @@
+$(function () {
+
+    function getMenu(evt) {
+
+        var menuName = this.value;
+
+        console.log(menuName);
+
+        $.get("/show-menu", {"menuName": menuName}, showMenu);
+
+        evt.preventDefault();
+    }
+
+    function showMenu(data) {
+
+        var templateScript = $("#menu-template").html();
+
+        var theTemplate = Handlebars.compile(templateScript);
+
+        var context = data;
+
+        console.log(context);
+
+    }
+
+    $(".menu").on("click", getMenu);
+
+});
+
+
+
+
+
 
 
 // function showSections(sections) {

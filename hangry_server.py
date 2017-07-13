@@ -202,7 +202,7 @@ def show_more_info():
 def show_menu():
     """Shows restaurant menu on clicking restaurant's menu button."""
 
-    restaurant = request.args.get("name")
+    restaurant = request.args.get("menuName")
     user_id = session["user_id"]
     user = User.query.get(user_id)
     city = user.city
@@ -210,7 +210,10 @@ def show_menu():
     eatstreet_details = get_restaurant_details(restaurant, city)
     menu = get_restaurant_menu(eatstreet_details)
 
-    return jsonify(menu)
+    response = {"status": "success", "menu": menu}
+
+    return jsonify(response)
+
 
 @app.route("/login", methods=["POST"])
 def log_user_in():

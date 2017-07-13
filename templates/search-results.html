@@ -10,9 +10,9 @@
   <div id="restaurant-list" style="display: inline-block">
     <ul>
       {% for name, yelp_rating in restaurant_list %}
-        <li><a href="#" class ="restaurant" id ="{{ name }}">{{ name }}:
-          Yelp Rating = {{ yelp_rating }}</a>
-          <button class="menu">Menu</button>
+        <li><button class ="restaurant" value="{{ name }}">{{ name }}:
+          Yelp Rating = {{ yelp_rating }}</button>
+          <button class="menu" value="{{ name }}">Menu</button>
         </li>
 
       {% endfor %}
@@ -21,6 +21,17 @@
 
   <div class="reviews" style="display: inline-block"></div>
   <div class="photos" style="display: inline-block"></div>
+
+  <script id="menu-template" type="text/x-handlebars-template">
+
+    {{#each menu}}
+      <p>{{name}}</p>
+      {{#each items}}
+        {{name}} {{description}} {{basePrice}}
+      {{/each}}
+    {{/each}}
+
+  </script>
 
   <p>
     <form action="/search-results" method="get">

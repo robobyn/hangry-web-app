@@ -7,6 +7,7 @@ import os
 SEARCH_URL = "https://api.yelp.com/v3/businesses/search"
 BUSINESS_URL = "https://api.yelp.com/v3/businesses/{}"
 REVIEWS_URL = "https://api.yelp.com/v3/businesses/{}/reviews"
+HEADERS = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
 
 
 def get_access_token():
@@ -38,14 +39,11 @@ def get_yelp_rating(restaurant, location):
 
     Return value is float between 1 and 5."""
 
-    # headers contain authentication information
-    headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
-
     # search params limit response to one restaurant
     params = {"term": restaurant, "location": location, "limit": 1}
 
     # get first restaurant that matches search terms from Yelp API
-    response = requests.get(SEARCH_URL, params=params, headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=HEADERS)
 
     result = response.json()
 
@@ -63,14 +61,11 @@ def get_business_id(restaurant, location):
 
     Returns Yelp business id as a string."""
 
-    # headers contain authentication information
-    headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
-
     # search params limit response to one restaurant
     params = {"term": restaurant, "location": location, "limit": 1}
 
     # get first restaurant that matches search terms from Yelp API
-    response = requests.get(SEARCH_URL, params=params, headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=HEADERS)
 
     result = response.json()
 
@@ -82,10 +77,7 @@ def get_business_id(restaurant, location):
 def get_photos(business_id):
     """Gets URLs for 3 Yelp restaurant photos based on business id."""
 
-    # headers contain authentication information
-    headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
-
-    response = requests.get(BUSINESS_URL.format(business_id), headers=headers)
+    response = requests.get(BUSINESS_URL.format(business_id), headers=HEADERS)
 
     result = response.json()
 
@@ -97,9 +89,7 @@ def get_photos(business_id):
 def get_reviews(business_id):
     """Gets top 3 Yelp reviews & exerpts based on business id."""
 
-    headers = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
-
-    response = requests.get(REVIEWS_URL.format(business_id), headers=headers)
+    response = requests.get(REVIEWS_URL.format(business_id), headers=HEADERS)
 
     result = response.json()
 

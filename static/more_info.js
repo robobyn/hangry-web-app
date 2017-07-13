@@ -2,7 +2,10 @@ $(function () {
 
     function getMoreInfo(evt) {
 
-        var name = this.id;
+        var name = this.value;
+
+        console.log("we're in get more info");
+        console.log(name);
 
         $.get("/show-more", {"name": name}, showMoreInfo);
 

@@ -13,6 +13,10 @@ $(function () {
 
     function showMenu(data) {
 
+        $("#reviews").empty().addClass("hidden");
+        $("#photos").empty().addClass("hidden");
+        $("#menu").removeClass("hidden");
+
         var templateScript = $("#menu-template").html();
 
         var theTemplate = Handlebars.compile(templateScript);
@@ -25,9 +29,19 @@ $(function () {
 
         $("#menu").html(compiledHtml);
 
+        $("#hide-menu").on("click", hideMenu);
+
     }
 
-    $(".menu").on("click", getMenu);
+    function hideMenu(evt) {
+
+        $("#menu").empty().addClass("hidden");
+
+    }
+
+    $(".menu-button").on("click", getMenu);
+
+    
 
 });
 

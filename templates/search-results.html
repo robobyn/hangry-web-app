@@ -2,48 +2,61 @@
 {% block content %}
 
 {% if restaurant_list %}
-  <h1>Get ready to eat, {{ user.username }}</h1>
+  <div class="row">
+    <div class="col-xs-6">
+      <h1>Get ready to eat, {{ user.username }}</h1>
 
-  <h3>You searched for {{ search_term }}, here are your results</h3>
-  <h5>Click a restaurant to display more information</h5>
+      <h3>You searched for {{ search_term }}, here are your results</h3>
+      <h5>Click a restaurant to display more information</h5>
 
-  <div id="restaurant-list" style="display: inline-block">
-    <ul>
-      {% for name, yelp_rating in restaurant_list %}
-        <li><button class ="restaurant" value="{{ name }}">{{ name }}:
-          Yelp Rating = {{ yelp_rating }}</button>
-          <button class="menu" value="{{ name }}">Menu</button>
-        </li>
 
-      {% endfor %}
-    </ul><br>
+      <div id="restaurant-list">
+        <ul>
+          {% for name, yelp_rating in restaurant_list %}
+            <li><button class ="restaurant" value="{{ name }}">{{ name }}:
+              Yelp Rating = {{ yelp_rating }}</button>
+              <button class="menu-button" value="{{ name }}">Menu</button>
+            </li>
+
+          {% endfor %}
+        </ul><br>
+      </div>
+
+      <p>
+        <form action="/search-results" method="get">
+          Search Again: <input type="text" name="search">
+          <input type="submit" value="Let's try again">
+        </form>
+      </p>
+
+    </div>
+
+    <div class="col-sm-6">
+      <div id="reviews" class="hidden" style="display: inline-block"></div>
+      <div id="photos" class="hidden" style="display: inline-block"></div>
+      <div id="menu" class="hidden"></div>
+
+      {% raw %}
+
+      <script id="menu-template" type="text/x-handlebars-template">
+
+        {{#each menu}}
+          <h3>{{name}}</h3>
+          {{#each items}}
+            {{name}}: {{description}} ${{basePrice}}<br>
+          {{/each}}
+        {{/each}}
+
+        <br><button id="hide-menu">Hide Menu</button><br>
+
+      </script>
+
+      {% endraw %}
+
+    </div>
+
   </div>
 
-  <div class="reviews" style="display: inline-block"></div>
-  <div class="photos" style="display: inline-block"></div>
-  <div id="menu"></div>
-
-  {% raw %}
-
-  <script id="menu-template" type="text/x-handlebars-template">
-
-    {{#each menu}}
-      <h3>{{name}}</h3>
-      {{#each items}}
-        {{name}}: {{description}} ${{basePrice}}<br>
-      {{/each}}
-    {{/each}}
-
-  </script>
-
-  {% endraw %}
-
-  <p>
-    <form action="/search-results" method="get">
-      Search Again: <input type="text" name="search">
-      <input type="submit" value="Let's try again">
-    </form>
-  </p>
 
 {% else %}
   <h1>OMG, {{ user.username }}, no restaurants match your search for

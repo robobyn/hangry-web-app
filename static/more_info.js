@@ -20,11 +20,12 @@ $(function () {
         var reviews = data.reviews;
         var photos = data.photos;
 
-        $(".reviews").empty();
-        $(".photos").empty();
+        $("#reviews").empty().removeClass("hidden");
+        $("#photos").empty().removeClass("hidden");
+        $("#menu").empty();
 
-        $(".reviews").html("<h3>Top 3 Yelp reviews: </h3>");
-        $(".photos").html("<h3>Photos from " + name + "</h3>");
+        $("#reviews").html("<h3>Top 3 Yelp reviews: </h3>");
+        $("#photos").html("<h3>Photos from " + name + "</h3>");
 
         showReviews(reviews);
 
@@ -41,7 +42,7 @@ function showReviews(reviews) {
 
         var rating = reviews[i]["rating"];
         var reviewText = reviews[i]["text"];
-        $(".reviews").append("Rating: " + rating + ": " + reviewText + "<br><br>");
+        $("#reviews").append("Rating: " + rating + ": " + reviewText + "<br><br>");
 
     }
 
@@ -51,7 +52,7 @@ function showPhotos(photos) {
 
     for (var i = 0; i < photos.length; i++) {
 
-        $(".photos").append('<img src=' + photos[i] + ' height="250">&nbsp;');
+        $("#photos").append('<img src=' + photos[i] + ' height="250">&nbsp;');
 
     }
 

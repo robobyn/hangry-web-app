@@ -57,6 +57,20 @@ class FlaskTestsLoggedOut(TestCase):
         self.assertIn("You need to login to see your profile page", result.data)
         self.assertNotIn("Not sure what you want?", result.data)
 
+    def test_search_page(self):
+        """Test that user cannot get to search-results page while logged out."""
+
+        result = self.client.get("/search-results?search=sushi",
+                                 follow_redirects=True)
+        self.assertIn("You must be logged in to search.", result.data)
+        self.assertNotIn("Get ready to eat", result.data)
+
+    def test_create_account(self):
+        """Test create account page."""
+
+        result = self.client.get("/create-account")
+        self.assertIn("Create your Account", result.data)
+
 
 if __name__ == "__main__":
     import unittest

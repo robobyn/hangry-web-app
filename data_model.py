@@ -4,31 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from helper_functions import ADDRESS_FORMAT
 
 # data-model.py connects to PostgreSQL database through flask-sqlalchemy
-# tables/classes include User, Cuisine
-# Upon account creation User chooses favorite cuisine type - will be foreign
-# key that references Cuisines table
+# only table/class is User
 
 db = SQLAlchemy()
-
-
-# probably will delete Cuisine class from model
-# may want to use if decide to track most popular user searches etc.
-
-# class Cuisine(db.Model):
-#     """Type of cuisine available for User to search or favorite."""
-
-#     __tablename__ = "cuisines"
-
-#     cuisine_id = db.Column(db.Integer,
-#                            autoincrement=True,
-#                            primary_key=True)
-#     cuisine_name = db.Column(db.String(30), nullable=False)
-
-#     def __repr__(self):
-#         """Provide representation of object when printed"""
-
-#         return "<Cuisine cuisine_id={} cuisine_name={}>".format(self.cuisine_id,
-#                                                                 self.cuisine_name)
 
 
 class User(db.Model):
@@ -68,11 +46,32 @@ class User(db.Model):
         return full_address
 
 
-def connect_to_db(app):
+def create_example_data():
+    """Creates sample data for use in tests.py."""
+
+    # Delete existing sample data in case this function runs more than once
+    User.query.delete()
+
+    # add sample users to test database
+    dopey = User(username="dopey", email="dopey@dwarves.com", password="abc123",
+                 st_address="450 Sutter", city="San Francisco", state="CA",
+                 zipcode="94108", fav_cuisine="pizza")
+    happy = User(username="happy", email="happy@dwarves.com", password="123abc",
+                 st_address="450 Sutter", city="San Francisco", state="CA",
+                 zipcode="94108", fav_cuisine="sushi")
+    grumpy = User(username="grumpy", email="grumpy@dwarves.com", password="cats",
+                  st_address="450 Sutter", city="San Francisco", state="CA",
+                  zipcode="94108", fav_cuisine="Indian")
+
+    db.session.add_all([dopey, happy, grumpy])
+    db.session.commit()
+
+
+def connect_to_db(app, db_uri="postgresql:///hangry"):
     """Connect the database to Hangry Flask app."""
 
     # Configure to use PostgreSQL database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///hangry"
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)

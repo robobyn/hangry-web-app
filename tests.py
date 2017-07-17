@@ -33,6 +33,38 @@ class FlaskTestsDatabase(TestCase):
                                   follow_redirects=True)
         self.assertIn("Not sure what you want?", result.data)
 
+    def test_create_account_post(self):
+        """Test account creation post route for new user."""
+
+        result = self.client.post("/create-account",
+                                  data={"username": "person",
+                                        "email": "person@address.com",
+                                        "password": "password1",
+                                        "st_address": "450 Sutter St.",
+                                        "city": "San Francisco",
+                                        "state": "CA",
+                                        "zipcode": "94108",
+                                        "cuisine": "pizza"},
+                                  follow_redirects=True)
+        self.assertIn("You successfully created an account", result.data)
+        self.assertNotIn("That e-mail address is already in use!", result.data)
+
+    def test_create_dup_account(self):
+        """Test attempting to create duplicate acct for email already in db."""
+
+        result = self.client.post("/create-account",
+                                  data={"username": "dopey",
+                                        "email": "dopey@dwarves.com",
+                                        "password": "password1",
+                                        "st_address": "450 Sutter St.",
+                                        "city": "San Francisco",
+                                        "state": "CA",
+                                        "zipcode": "94108",
+                                        "cuisine": "pizza"},
+                                  follow_redirects=True)
+        self.assertIn("That e-mail address is already in use!", result.data)
+        self.assertNotIn("You successfully created an account", result.data)
+
 
 class FlaskTestsLoggedOut(TestCase):
     """Flask tests with user not logged in to session."""
@@ -49,6 +81,7 @@ class FlaskTestsLoggedOut(TestCase):
 
         result = self.client.get("/")
         self.assertIn("Login", result.data)
+        self.assertNotIn("What are you craving?", result.data)
 
     def test_profile_page(self):
         """Test that user cannot see profile pages while logged out."""
@@ -95,6 +128,13 @@ class FlaskTestsLoggedIn(TestCase):
 
         db.session.close()
         db.drop_all()
+
+    def test_home_page(self):
+        """Test homepage while user logged in."""
+
+        result = self.client.get("/")
+        self.assertIn("What are you craving?", result.data)
+        self.assertNotIn("Login", result.data)
 
     def test_profile_page(self):
         """Test profile page while logged in."""

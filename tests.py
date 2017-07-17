@@ -72,6 +72,47 @@ class FlaskTestsLoggedOut(TestCase):
         self.assertIn("Create your Account", result.data)
 
 
+class FlaskTestsLoggedIn(TestCase):
+    """Flask tests for pages when user logged in to session."""
+
+    def setUp(self):
+        """Set up test client and test db before each test."""
+
+        app.config["TESTING"] = True
+        app.config["SECRET_KEY"] = "key"
+        self.client = app.test_client()
+        connect_to_db(app, "postgresql:///testdb")
+
+        db.create_all()
+        create_example_data()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+
+    def tearDown(self):
+        """Tear down test client and test db when tests finish."""
+
+        db.session.close()
+        db.drop_all()
+
+    def test_profile_page(self):
+        """Test profile page while logged in."""
+
+        result = self.client.get("/profile/1", follow_redirects=True)
+        self.assertNotIn("You need to login to see your profile page",
+                         result.data)
+        self.assertIn("Not sure what you want?", result.data)
+
+    def test_search_results(self):
+        """Test search results while user logged in."""
+
+        result = self.client.get("http://localhost:5000/search-results?search=sushi",
+                                 follow_redirects=True)
+        self.assertIn("Get ready to eat", result.data)
+        self.assertNotIn("You must be logged in to search.", result.data)
+
+
 if __name__ == "__main__":
     import unittest
 

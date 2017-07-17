@@ -152,6 +152,20 @@ class FlaskTestsLoggedIn(TestCase):
         self.assertIn("Get ready to eat", result.data)
         self.assertNotIn("You must be logged in to search.", result.data)
 
+    def test_update_account(self):
+        """Test update-account post route."""
+
+        result = self.client.post("/update-account",
+                                  data={"username": "fancy",
+                                        "email": "dopey@dwarves.com",
+                                        "address": "450 Sutter St.",
+                                        "city": "San Francisco",
+                                        "state": "CA",
+                                        "zipcode": "94108",
+                                        "cuisine": "pizza"},
+                                  follow_redirects=True)
+        self.assertIn("successfully updated your account.", result.data)
+
 
 if __name__ == "__main__":
     import unittest

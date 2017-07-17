@@ -106,6 +106,7 @@ def update_user_info():
 
     full_address = user.get_full_address()
 
+    flash("You've successfully updated your account.")
     return render_template("profile.html",
                            user=user,
                            address=full_address,

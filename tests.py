@@ -27,11 +27,17 @@ class FlaskTestsDatabase(TestCase):
     def test_login(self):
         """Test login page."""
 
-        result = self.client.post("/login",
-                                  data={"email": "dopey@dwarves.com",
-                                        "password": "abc123"},
-                                  follow_redirects=True)
-        self.assertIn("Not sure what you want?", result.data)
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess["user_id"] = 1
+
+            result = self.client.post("/login",
+                                      data={"email": "dopey@dwarves.com",
+                                            "password": "abc123"},
+                                      follow_redirects=True)
+
+            self.assertIn("Not sure what you want?", result.data)
+            self.assertEqual(session["user_id"], 1)
 
     def test_create_account_post(self):
         """Test account creation post route for new user."""
@@ -165,6 +171,17 @@ class FlaskTestsLoggedIn(TestCase):
                                         "cuisine": "pizza"},
                                   follow_redirects=True)
         self.assertIn("successfully updated your account.", result.data)
+
+    def test_logout(self):
+        """Test logout route."""
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess["user_id"] = "1"
+
+            result = self.client.get("/logout", follow_redirects=True)
+            self.assertIn("logged out", result.data)
+            self.assertNotIn("user_id", session)
 
 
 if __name__ == "__main__":

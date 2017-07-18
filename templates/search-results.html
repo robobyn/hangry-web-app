@@ -16,7 +16,9 @@
         <ul>
           {% for name, yelp_rating in restaurant_list %}
             <li><a href="#" class="restaurant" id="{{ name }}">{{ name }}: 
-                </a> Rating
+                </a><br>
+
+              Rating
 
               {% if yelp_rating == 1 %}
                 <img src="/static/yelp_stars/web_and_ios/small/small_1.png">
@@ -38,8 +40,9 @@
                 <img src="/static/yelp_stars/web_and_ios/small/small_5.png">
               {% endif %}
 
-              <button class="menu-button" value="{{ name }}">Menu</button>
-            </li>
+              <button class="menu-button btn btn-info" value="{{ name }}">Menu
+              </button>
+            </li><br>
 
           {% endfor %}
         </ul><br>
@@ -55,26 +58,32 @@
     </div>
 
     <div class="col-sm-6">
-      <div id="reviews" class="hidden" style="display: inline-block"></div>
-      <div id="photos" class="hidden" style="display: inline-block"></div>
-      <div id="menu" class="hidden"></div>
+      <div class="show-more hidden">
+        <div id="order-info" class="hidden"></div>
+        <div id="reviews" class="hidden"></div>
+        <div id="photos" class="hidden"></div>
+        <div id="menu" class="hidden"></div>
 
-      {% raw %}
+        {% raw %}
 
-      <script id="menu-template" type="text/x-handlebars-template">
+        <script id="menu-template" type="text/x-handlebars-template">
 
-        {{#each menu}}
-          <h3>{{name}}</h3>
-          {{#each items}}
-            {{name}}: {{description}} ${{basePrice}}<br>
+          <h2>{{menuName}} Menu</h2>
+          {{#each menu}}
+            <h4>{{name}}</h4>
+               
+              {{#each items}}
+                <p>{{name}}: {{description}} ${{basePrice}}
+                </p>
+              {{/each}}
           {{/each}}
-        {{/each}}
 
-        <br><button id="hide-menu">Hide Menu</button><br>
+          <br><button id="hide-menu" class="btn btn-info">Hide Menu</button><br>
 
-      </script>
+        </script>
 
-      {% endraw %}
+        {% endraw %}
+      </div>
 
     </div>
 

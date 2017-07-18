@@ -197,11 +197,14 @@ def show_more_info():
     city = user.city
 
     yelp_id = get_business_id(restaurant, city)
+    eatstreet_details = get_restaurant_details(restaurant, city)
     reviews = get_reviews(yelp_id)
     photos = get_photos(yelp_id)
+    open_now = eatstreet_details["open"]
+    order_url = eatstreet_details["url"]
 
     response = {"status": "success", "name": restaurant, "reviews": reviews,
-                "photos": photos}
+                "photos": photos, "openNow": open_now, "orderUrl": order_url}
 
     return jsonify(response)
 
@@ -218,7 +221,7 @@ def show_menu():
     eatstreet_details = get_restaurant_details(restaurant, city)
     menu = get_restaurant_menu(eatstreet_details)
 
-    response = {"status": "success", "menu": menu}
+    response = {"status": "success", "menu": menu, "menuName": restaurant}
 
     return jsonify(response)
 

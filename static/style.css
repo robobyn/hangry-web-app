@@ -1,0 +1,15 @@
+a {
+    font-size: 18px;
+}
+
+.show-more {
+    width: 100%;
+    margin-right: auto;
+    margin-top: 20px;
+    background-color: white;
+    border: #3C7D91 10px solid;
+    border-radius: 15px 15px 15px 15px;
+    padding: 10px 10px 10px 10px;
+    overflow-y: scroll;
+    max-height: 700px;
+}

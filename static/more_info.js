@@ -20,13 +20,19 @@ $(function () {
         var name = data.name;
         var reviews = data.reviews;
         var photos = data.photos;
+        var openNow = data.openNow;
+        var orderUrl = data.orderUrl;
 
+        $(".show-more").removeClass("hidden");
         $("#reviews").empty().removeClass("hidden");
         $("#photos").empty().removeClass("hidden");
         $("#menu").empty();
+        $("#order-info").empty();
 
-        $("#reviews").html("<h3>Top 3 Yelp reviews: </h3>");
+        $("#reviews").html("<h3>Recommended Yelp reviews: </h3>");
         $("#photos").html("<h3>Photos from " + name + "</h3>");
+
+        showOrderInfo(name, openNow, orderUrl);
 
         showReviews(reviews);
 
@@ -57,4 +63,16 @@ function showPhotos(photos) {
 
     }
 
+}
+
+function showOrderInfo(name, openNow, orderUrl) {
+
+    $("#order-info").removeClass("hidden").append("<h1>" + name + "</h1>");
+
+    if (openNow) {
+        $("#order-info").append("<p>" + name + " is open now</p>");
+        $("#order-info").append("<a href='" + orderUrl + "'>Click here</a> to order from EatStreet!<br>");
+    } else {
+        $("#order-info").append("<p>" + name + " is closed, bummer.</p>");
+    }
 }

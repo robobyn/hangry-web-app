@@ -15,6 +15,8 @@ $(function () {
 
         $("#reviews").empty().addClass("hidden");
         $("#photos").empty().addClass("hidden");
+        $("#order-info").empty().addClass("hidden");
+        $(".show-more").removeClass("hidden");
         $("#menu").removeClass("hidden");
 
         var templateScript = $("#menu-template").html();

@@ -8,13 +8,36 @@
 
       <h3>You searched for {{ search_term }}, here are your results</h3>
       <h5>Click a restaurant to display more information</h5>
+      <h5>Ratings and reviews powered by Yelp</h5>
+      <img src="/static/yelp_logo/Screen/Yelp_trademark_RGB_outline.png" style="height: 75px">
 
 
       <div id="restaurant-list">
         <ul>
           {% for name, yelp_rating in restaurant_list %}
-            <li><button class ="restaurant" value="{{ name }}">{{ name }}:
-              Yelp Rating = {{ yelp_rating }}</button>
+            <li><a href="#" class="restaurant" id="{{ name }}">{{ name }}: 
+                </a> Rating
+
+              {% if yelp_rating == 1 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_1.png">
+              {% elif yelp_rating == 1.5 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_1_half.png">
+              {% elif yelp_rating == 2 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_2.png">
+              {% elif yelp_rating == 2.5 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_2_half.png">
+              {% elif yelp_rating == 3 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_3.png">
+              {% elif yelp_rating == 3.5 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_3_half.png">
+              {% elif yelp_rating == 4 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_4.png">
+              {% elif yelp_rating == 4.5 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_4_half.png">
+              {% elif yelp_rating == 5 %}
+                <img src="/static/yelp_stars/web_and_ios/small/small_5.png">
+              {% endif %}
+
               <button class="menu-button" value="{{ name }}">Menu</button>
             </li>
 

@@ -2,7 +2,7 @@ $(function () {
 
     function getMoreInfo(evt) {
 
-        var name = this.value;
+        var name = this.id;
 
         console.log("we're in get more info");
         console.log(name);
@@ -15,6 +15,7 @@ $(function () {
     function showMoreInfo(data) {
 
         console.log(data.status);
+        console.log(data);
 
         var name = data.name;
         var reviews = data.reviews;

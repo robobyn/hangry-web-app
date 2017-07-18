@@ -37,7 +37,7 @@ class FlaskTestsDatabase(TestCase):
                                       follow_redirects=True)
 
             self.assertIn("Not sure what you want?", result.data)
-            self.assertEqual(session["user_id"], 1)
+            self.assertEqual(sess["user_id"], 1)
 
     def test_create_account_post(self):
         """Test account creation post route for new user."""
@@ -52,6 +52,7 @@ class FlaskTestsDatabase(TestCase):
                                         "zipcode": "94108",
                                         "cuisine": "pizza"},
                                   follow_redirects=True)
+
         self.assertIn("You successfully created an account", result.data)
         self.assertNotIn("That e-mail address is already in use!", result.data)
 
@@ -68,6 +69,7 @@ class FlaskTestsDatabase(TestCase):
                                         "zipcode": "94108",
                                         "cuisine": "pizza"},
                                   follow_redirects=True)
+
         self.assertIn("That e-mail address is already in use!", result.data)
         self.assertNotIn("You successfully created an account", result.data)
 
@@ -127,7 +129,7 @@ class FlaskTestsLoggedIn(TestCase):
 
         with self.client as c:
             with c.session_transaction() as sess:
-                sess['user_id'] = 1
+                sess["user_id"] = 1
 
     def tearDown(self):
         """Tear down test client and test db when tests finish."""
@@ -155,6 +157,7 @@ class FlaskTestsLoggedIn(TestCase):
 
         result = self.client.get("http://localhost:5000/search-results?search=sushi",
                                  follow_redirects=True)
+
         self.assertIn("Get ready to eat", result.data)
         self.assertNotIn("You must be logged in to search.", result.data)
 
@@ -170,6 +173,7 @@ class FlaskTestsLoggedIn(TestCase):
                                         "zipcode": "94108",
                                         "cuisine": "pizza"},
                                   follow_redirects=True)
+
         self.assertIn("successfully updated your account.", result.data)
 
     def test_logout(self):
@@ -177,11 +181,37 @@ class FlaskTestsLoggedIn(TestCase):
 
         with self.client as c:
             with c.session_transaction() as sess:
-                sess["user_id"] = "1"
+                sess["user_id"] = 1
 
             result = self.client.get("/logout", follow_redirects=True)
             self.assertIn("logged out", result.data)
             self.assertNotIn("user_id", session)
+
+    def test_cuisine_chart(self):
+        """Test /cuisine-count.json route for chartJS on profile page."""
+
+        result = self.client.get("/cuisine-count.json", follow_redirects=True)
+        self.assertIn("datasets", result.data)
+
+    def test_show_more(self):
+        """Test /show-more route in hangry server."""
+
+        result = self.client.get("/show-more",
+                                 data={"name": "DJ Sushi"},
+                                 follow_redirects=True)
+
+        self.assertIn("photos", result.data)
+        self.assertIn("reviews", result.data)
+
+    def test_show_menu(self):
+        """Test /show-menu route in hangry server."""
+
+        result = self.client.get("show-menu",
+                                 data={"name": "DJ Sushi"},
+                                 follow_redirects=True)
+
+        self.assertIn("menu", result.data)
+        self.assertIn("items", result.data)
 
 
 if __name__ == "__main__":

@@ -38,6 +38,7 @@ $(function () {
     function hideMenu(evt) {
 
         $("#menu").empty().addClass("hidden");
+        $(".show-more").addClass("hidden");
 
     }
 

@@ -49,17 +49,51 @@ function showReviews(reviews) {
 
         var rating = reviews[i]["rating"];
         var reviewText = reviews[i]["text"];
-        $("#reviews").append("Rating: " + rating + ": " + reviewText + "<br><br>");
 
+        if (rating == 1) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_1.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 1.5) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_1_half.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 2) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_2.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 2.5) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_2_half.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 3) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_3.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 3.5) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_3_half.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 4) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_4.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 4.5) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_4_half.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
+        else if (rating == 5) {
+            imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_5.png">';
+            $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
+        }
     }
-
 }
 
 function showPhotos(photos) {
 
     for (var i = 0; i < photos.length; i++) {
 
-        $("#photos").append('<img src=' + photos[i] + ' height="250">&nbsp;');
+        $("#photos").append('<img src=' + photos[i] + ' width="80%"><br><br>');
 
     }
 

@@ -7,9 +7,21 @@ a {
     margin-right: auto;
     margin-top: 20px;
     background-color: white;
-    border: #3C7D91 10px solid;
+    border: #5BC0DE 10px solid;
     border-radius: 15px 15px 15px 15px;
     padding: 10px 10px 10px 10px;
     overflow-y: scroll;
-    max-height: 700px;
+    max-height: 600px;
+}
+
+.restaurant-list {
+    width: 100%;
+    margin-right: auto;
+    margin-top: 20px;
+    background-color: white;
+    border: #5BC0DE 10px solid;
+    border-radius: 15px 15px 15px 15px;
+    padding: 10px 10px 10px 10px;
+    overflow-y: scroll;
+    max-height: 600px;
 }

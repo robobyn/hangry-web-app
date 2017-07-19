@@ -3,9 +3,11 @@
 import requests
 import os
 import json
+import re
 
 SEARCH_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?"
 MENU_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/{}/menu"
+HEADERS = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
 
 
 def search_eatstreet(term, address):
@@ -16,22 +18,32 @@ def search_eatstreet(term, address):
 
     Return value list of restaurant dicts that deliver to user's address."""
 
-    # headers contain authentication information
-    headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
-
-    params = {"street-address": address, "method": "delivery", "search": term}
+    params = {"street-address": address, "method": "delivery"}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get(
-        SEARCH_URL,
-        params=params,
-        headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=HEADERS)
 
     result = response.json()
 
     restaurants = result["restaurants"]
 
-    return restaurants
+    term = term.split(" ")
+    first_word = term[0]
+
+    matching_restaurants = []
+
+    for restaurant in restaurants:
+
+        food_types = restaurant["foodTypes"]
+
+        for food in food_types:
+
+            if re.search(first_word, food, flags=re.IGNORECASE):
+
+                if restaurant not in matching_restaurants:
+                    matching_restaurants.append(restaurant)
+
+    return matching_restaurants
 
 
 def get_restaurant_details(restaurant, address):
@@ -42,20 +54,17 @@ def get_restaurant_details(restaurant, address):
 
        Returns dict of information about specific restaurant."""
 
-    # headers contain authentication information
-    headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
-
     params = {"street-address": address, "method": "delivery",
               "search": restaurant}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get(SEARCH_URL, params=params, headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=HEADERS)
 
     result = response.json()
 
-    restaurant_info = result["restaurants"][0]
+    restaurant = result["restaurants"][0]
 
-    return restaurant_info
+    return restaurant
 
 
 def get_restaurant_menu(restaurant_info):
@@ -67,9 +76,7 @@ def get_restaurant_menu(restaurant_info):
 
     api_key = restaurant_info["apiKey"]
 
-    headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
-
-    response = requests.get(MENU_URL.format(api_key), headers=headers)
+    response = requests.get(MENU_URL.format(api_key), headers=HEADERS)
 
     menu = response.json()
 
@@ -107,13 +114,10 @@ def get_cuisine_count(address):
                      values are how many restaurants in users delivery area
                      that are listed under that cuisine type."""
 
-    # headers contain authentication information
-    headers = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
-
     params = {"street-address": address, "method": "delivery"}
 
     # get restaurants that meet search terms from Eat Street
-    response = requests.get(SEARCH_URL, params=params, headers=headers)
+    response = requests.get(SEARCH_URL, params=params, headers=HEADERS)
 
     result = response.json()
 

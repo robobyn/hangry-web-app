@@ -15,8 +15,7 @@
       <div class="restaurant-list">
         <h5>Click a restaurant name to display more information</h5>
         <h5>Click a restaurant's menu button for the menu</h5>
-        <img src="/static/yelp_logo/Screen/Yelp_trademark_RGB_outline.png"
-        style="height: 75px"><br>
+
           {% for name, yelp_rating in restaurant_list %}
             <a href="#" class="restaurant" id="{{ name }}">{{ name }}</a><br>
 
@@ -47,6 +46,13 @@
             <br><br>
 
           {% endfor %}
+
+          <p>Search results and ratings powered by EatStreet and Yelp</p>
+
+          <img src="/static/yelp_logo/Screen/Yelp_trademark_RGB_outline.png"
+          style="height: 75px">
+          <img src="/static/eatstreetvertical.png" style="height: 75px">
+          <br>
         <br>
       </div>
 
@@ -71,6 +77,7 @@
         <script id="menu-template" type="text/x-handlebars-template">
 
           <h2>{{menuName}} Menu</h2>
+          <img src="{{logoUrl}}" height="75px">
           {{#each menu}}
             <h4>{{name}}</h4>
                

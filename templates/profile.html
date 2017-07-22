@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 <h1 align="center">Hey, {{ user.username }}!</h1><br>
 
 <div class=row>
@@ -47,11 +48,14 @@
   </div>
 
   <div class="col-xs-6" align="center">
-    <h3>Not sure what you want?</h3>
-    <h5>These are the top 5 types of restaurants in your delivery area</h3>
-    <canvas id="donutChart" style="height: 750 width: 750"></canvas>
+    <div class="profile-chart">
+      <h3>Not sure what you want?</h3>
+      <h5>These are the top 5 types of restaurants in your delivery area</h5>
+      <canvas id="donutChart" style="height: 750px width: 750px"></canvas>
+    </div>
   </div>
 </div>
+
 
 
 {% endblock %}

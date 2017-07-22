@@ -195,9 +195,10 @@ def show_more_info():
     user_id = session["user_id"]
     user = User.query.get(user_id)
     city = user.city
+    user_address = user.get_full_address()
 
     yelp_id = get_business_id(restaurant, city)
-    eatstreet_details = get_restaurant_details(restaurant, city)
+    eatstreet_details = get_restaurant_details(restaurant, user_address)
     reviews = get_reviews(yelp_id)
     photos = get_photos(yelp_id)
     open_now = eatstreet_details["open"]
@@ -219,9 +220,11 @@ def show_menu():
     city = user.city
 
     eatstreet_details = get_restaurant_details(restaurant, city)
+    logo_url = eatstreet_details["logoUrl"]
     menu = get_restaurant_menu(eatstreet_details)
 
-    response = {"status": "success", "menu": menu, "menuName": restaurant}
+    response = {"status": "success", "menu": menu, "menuName": restaurant,
+                "logoUrl": logo_url}
 
     return jsonify(response)
 

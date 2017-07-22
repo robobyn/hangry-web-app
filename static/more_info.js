@@ -93,7 +93,7 @@ function showPhotos(photos) {
 
     for (var i = 0; i < photos.length; i++) {
 
-        $("#photos").append('<img src=' + photos[i] + ' width="80%"><br><br>');
+        $("#photos").append('<img src=' + photos[i] + ' class="img-rounded" width="80%"><br><br>');
 
     }
 

@@ -1,39 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="homepage-body">
-<h1>Hangry</h1>
-<h3>For when you're so hungry you can't even.</h3>
+<div class=row>
 
-{% if "user_id" not in session %}
+  <div class="col-xs-12">
 
-  <h2>Login</h2>
+    <div class="homepage-body">
+    <h1 align="center">Hangry</h1>
+    <h2 align="center">For when you're so hungry you can't even.</h2>
 
-    <form action="/login" method="POST">
-      E-mail address: 
-      <input type="email" name="email" required><br><br>
-      Password (must be 4 to 12 characters): 
-      <input type="password" name="password"><br><br>
-      <input type="submit" value="Login">
-    </form>
+    {% if "user_id" not in session %}
 
-  <h2>New to Hangry?</h2>
-  <p><a href="/create-account">Click here </a>to get started<br>
-    We know you're hangry, but we promise it'll only take a minute to create your
-    account.
-  </p>
+      <h3>New to Hangry?</h3>
+      <p><a href="/create-account">Click here </a>to get started<br>
+        We know you're hangry, but we promise it'll only take a minute to create your
+        account.
+      </p>
 
-{% else %}
-  <h2>Hi, {{ user.username }}!</h2>
+      <h3>Login</h3>
+      <button class="btn btn-info" id="showlogin">Show Login Form</button>
 
-  <form action="/search-results" method="get">
-  What are you craving? <input type="text" name="search" id="home-search">
-  <br>
-  <input type="submit" value="I'm so Hangry!">
-  </form><br><br>
+        <form action="/login" id="loginform" method="post" class="hidden">
+          <div class="form-group">
+            <label for="email">E-mail address: </label>
+            <input type="email" class="form-control" name="email"
+            id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password (must be 4 to 12 characters): 
+            </label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+            <input type="submit" class="btn btn-info" value="Login">
+        </form>
 
+    {% else %}
+      <h2>Hi, {{ user.username }}!</h2>
+
+      <form action="/search-results" method="get">
+        <div class="form-group">
+          <label for="home-search">What are you craving? </label>
+          <input type="text" class="form-control" name="search" id="home-search">
+        </div>
+      <input type="submit" class="btn btn-info" value="I'm so Hangry!">
+      </form><br><br>
+
+    </div>
+  </div>
 </div>
 
 {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
+  <script src="/static/forms.js"></script>
 
 {% endblock %}

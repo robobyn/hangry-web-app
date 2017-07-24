@@ -31,7 +31,7 @@
         <li><a href="/create-account"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         {% endif %}
       </ul>
-    </div>
+      </div>
     </nav>
     <ul>
       {% for message in get_flashed_messages() %}
@@ -42,6 +42,7 @@
     {% block content %} put your content here {% endblock %}
 
   </div>
+</body>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js">
   </script>
@@ -51,6 +52,6 @@
 
   {% block scripts %}{% endblock %}
 
-</body>
+
 
 </html>

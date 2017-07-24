@@ -1,57 +1,81 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="profile-page">
+  <h1 align="center">Hey, {{ user.username }}!</h1><br>
 
-<h1 align="center">Hey, {{ user.username }}!</h1><br>
+  <div class="row">
 
-<div class=row>
+    <div class="col-xs-6" align="left">
+      <h3>Before you search, check your delivery info</h3><br>
 
-  <div class="col-xs-6">
-    <h3>Before you search, check your delivery info</h3><br>
+      <p>Delivery address: {{ address }} <br>
+       Favorite cuisine: {{ user.fav_cuisine }}
+      </p><br>
 
-    <p>Delivery address: {{ address }} <br>
-     Favorite cuisine: {{ user.fav_cuisine }}
-    </p><br>
+      <button type="button" class="btn btn-info" id="update">Update your information</button>
+      <form action="/update-account" class="hidden" id="updateform" method="post">
+        <div class="form-group">
+          <label for="user">Username:</label>
+          <input type="text" name="username" class="form-control" id="user"
+          value="{{ user.username }}">
+        </div>
+        <div class="form-group">
+          <label for="ud-email">Email:</label>
+          <input type="text" name="email" id="ud-email" class="form-control"
+          value="{{ user.email }}">
+        </div>
+        <div class="form-group">
+          <label for="ud-address">Street Address:</label>
+          <input type="text" id="ud-address" class="form-control" name="address"
+          value="{{ user.st_address }}">
+        </div>
+        <div class="form-group">
+          <label for="ud-city">City:</label>
+          <input type="text" id="ud-city" class="form-control" name="city"
+          value="{{ user.city }}">
+        </div>
+        <div class="form-group">
+          <label for="ud-state">State:</label>
+          <select name="state" class="form-control" id="ud-state">
+            {% for state, abbr in all_states.items()|sort %}
+              <option value="{{ abbr }}" 
+                {% if abbr == user.state %}
+                  selected
+                {% endif %} >{{ state }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ud-zipcode">Zipcode:</label>
+          <input type="text" id="ud-zipcode" class="form-control" name="zipcode"
+          value="{{ user.zipcode }}">
+        </div>
+        <div class="form-group">
+          <label for="ud-fav">Favorite type of restaurant:</label>
+          <input type="text" name="cuisine" id="fav" class="form-control"
+          value="{{ user.fav_cuisine }}">
+        </div>
+        <input type="submit" class="btn btn-info" value="Submit">
+      </form>
+      <br>
 
-    <button type="button" id="update">Update your information</button>
-    <form action="/update-account" class="hidden" id="updateform" method="post">
-      Username:
-      <input type="text" name="username" value="{{ user.username }}"><br><br>
-      Email:
-      <input type="text" name="email" value="{{ user.email }}"><br><br>
-      Street Address:
-      <input type="text" name="address" value="{{ user.st_address }}"><br><br>
-      City:
-      <input type="text" name="city" value="{{ user.city }}"><br><br>
-      State:
-      <select name="state">
-        {% for state, abbr in all_states.items()|sort %}
-          <option value="{{ abbr }}" 
-            {% if abbr == user.state %}
-              selected
-            {% endif %} >{{ state }}</option>
-        {% endfor %}
-      </select><br><br>
-      Zipcode:
-      <input type="text" name="zipcode" value="{{ user.zipcode }}"><br><br>
-      Favorite type of restaurant:
-      <input type="text" name="cuisine" value="{{ user.fav_cuisine }}"><br><br>
-      <input type="submit" value="Submit">
-    </form>
-    <br>
+      <h3>Search by restaurant or cuisine</h3><br>
+      <form action="/search-results" method="get">
+        <div class="form-group">
+          <label for="search">What are you craving? </label>
+          <input type="text" class="form-control" name="search" id="search">
+        </div>
+        <input type="submit" class="btn btn-info" value="I'm so Hangry!">
+      </form><br><br>
+    </div>
 
-    <h3>Search by restaurant or cuisine</h3>
-    <form action="/search-results" method="get">
-      What are you craving? <input type="text" name="search" id="search"><br><br>
-      <input type="submit" value="I'm so Hangry!">
-    </form><br><br>
-  </div>
-
-  <div class="col-xs-6" align="center">
-    <div class="profile-chart">
-      <h3>Not sure what you want?</h3>
-      <h5>These are the top 5 types of restaurants in your delivery area</h5>
-      <canvas id="donutChart" style="height: 750px width: 750px"></canvas>
+    <div class="col-xs-6" align="center">
+      <div class="profile-chart">
+        <h3>Not sure what you want?</h3>
+        <h5>These are the top 5 types of restaurants in your delivery area</h5>
+        <canvas id="donutChart" style="height: 750px width: 750px"></canvas>
+      </div>
     </div>
   </div>
 </div>

@@ -4,9 +4,11 @@
 {% if restaurant_list %}
   <div class="row">
     <div class="col-xs-12" align="center">
-      <h1>Get ready to eat, {{ user.username }}</h1>
+      <div class="search-greeting">
+        <h1>Get ready to eat, {{ user.username }}</h1>
 
-      <h3>You searched for {{ search_term }}, here are your results</h3>
+        <h3>You searched for {{ search_term }}, here are your results</h3>
+      </div
     </div>
   </div>
 
@@ -54,14 +56,15 @@
           <img src="/static/eatstreetvertical.png" style="height: 75px">
           <br>
         <br>
-      </div>
+      </div><br>
 
-      <p>
-        <form action="/search-results" method="get">
-          Search Again: <input type="text" name="search">
-          <input type="submit" value="Let's try again">
+        <form class="form-inline" action="/search-results" method="get">
+          <div class="form-group">
+            <label for="search-again">Search Again: </label>
+            <input type="text" class="form-control" id="search-again" name="search">
+          </div>
+          <input type="submit" class="btn btn-info" value="Let's try again">
         </form>
-      </p>
 
     </div>
 
@@ -100,29 +103,33 @@
 
 
 {% else %}
+<div class="no-results">
   <div align="center">
     <h1>OMG, {{ user.username }}, no restaurants found for
       {{ search_term }}.</h1>
-    <h3>That's sad.</h3>
+    <h3>That's sad.</h3><br>
 
-    <p>
       <form action="/search-results" method="get">
-        Search Again: <input type="text" name="search">
-        <input type="submit" value="Let's try again">
-      </form>
-    </p>
+        <div class="form-group">
+          <label for="re-search">Search Again </label>
+          <input type="text" id="re-search" class="form-control" name="search">
+        </div>
+          <input type="submit" class="btn btn-info" value="Let's try again">
+      </form><br>
 
-    <p>Try one of these common search terms:<br>
-      <form action="/search-results" method="GET">
-        <select name="search">
-          {% for cuisine in cuisines %}
-          <option value={{ cuisine }}>{{ cuisine }}</option>
-          {% endfor %}
-        </select>
-        <input type="submit" value="I just wanna eat!"><br><br>
+      <form action="/search-results" method="get">
+        <div class="form-group">
+          <label for="pick-new">Try one of these common search terms </label>
+          <select id="pick-new" class="form-control" name="search">
+            {% for cuisine in cuisines %}
+            <option value={{ cuisine }}>{{ cuisine }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <input type="submit" class="btn btn-info" value="I just wanna eat!"><br><br>
       </form>
-    </p>
   </div>
+</div>
 {% endif %}
 
 

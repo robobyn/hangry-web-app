@@ -1,23 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class=row>
-
+<div class="row homepage-forms">
   <div class="col-xs-12">
 
-    <div class="homepage-body">
+    <div>
     <h1 align="center">Hangry</h1>
     <h2 align="center">For when you're so hungry you can't even.</h2>
 
+    </div>
+  </div>
+
+<br><br>
+
+<div class="row">
+  <div class="col-xs-12">
     {% if "user_id" not in session %}
+    <div class="col-xs-5" align="center">
+      <h3>New to Hangry?</h3><br>
+      <button class="btn btn-info" id="showcreateacct">Sign up</button>
 
-      <h3>New to Hangry?</h3>
-      <p><a href="/create-account">Click here </a>to get started<br>
-        We know you're hangry, but we promise it'll only take a minute to create your
-        account.
-      </p>
+      <form action="/create-account" id="createacct" method="post" class="hidden">
+        <div class="form-group">
+          <label for="new-user">Username </label>
+          <input type="text" class="form-control" id="new-user" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="new-email">E-mail address </label>
+          <input type="email" class="form-control" id="new-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for"new-password">Password (up to 15 characters)</label>
+          <input type="password" class="form-control" id="new-password" name="password">
+        </div>
+        <div class="form-group">
+          <label for"new-address">Delivery Address </label>
+          <input type="text" class="form-control" id="new-address" name="st_address">
+        </div>
+        <div class="form-group">
+          <label for="new-city">City </label>
+          <input type="text" class="form-control" id="new-city" name="city">
+        </div>
+        <div class="form-group">
+          <label for="new-state">State </label>
+          <select id="new-state" class="form-control" name="state">
+            {% for state, abbr in all_states.items()|sort %}
+              <option value="{{ abbr }}">{{ state }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="new-zipcode">Zipcode </label>
+          <input type="number" class="form-control" id="new-zipcode" name="zipcode">
+        </div>
+        <div class="form-group">
+          <label for="new-fav">Favorite type of restaurant </label>
+          <input type="text" class="form-control" id="new-fav" name="cuisine">
+        </div>
+          <input type="submit" class="btn btn-info" value="Create now!">
+      </form>
+    </div>
 
-      <h3>Login</h3>
+  <div class="col-xs-2"></div>
+
+  <div class="col-xs-5" align="center">
+      <h3>Login</h3><br>
       <button class="btn btn-info" id="showlogin">Show Login Form</button>
 
         <form action="/login" id="loginform" method="post" class="hidden">
@@ -33,21 +80,24 @@
           </div>
             <input type="submit" class="btn btn-info" value="Login">
         </form>
+      </div>
+    </div>
 
     {% else %}
-      <h2>Hi, {{ user.username }}!</h2>
+  <div class="col-xs-4">
+    <h2>Hi, {{ user.username }}!</h2>
 
-      <form action="/search-results" method="get">
-        <div class="form-group">
-          <label for="home-search">What are you craving? </label>
-          <input type="text" class="form-control" name="search" id="home-search">
+    <form action="/search-results" method="get">
+      <div class="form-group">
+        <label for="home-search">What are you craving? </label>
+          <input type="text" class="form-control" name="search" id="home-search"><br>
+      
+        <input type="submit" class="btn btn-info" value="I'm so Hangry!">
         </div>
-      <input type="submit" class="btn btn-info" value="I'm so Hangry!">
       </form><br><br>
-
     </div>
-  </div>
 </div>
+
 
 {% endif %}
 

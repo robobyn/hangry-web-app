@@ -26,12 +26,11 @@ def homepage():
         user_id = session["user_id"]
         user = User.query.get(user_id)
 
-        return render_template("homepage.html",
-                               user=user,)
+        return render_template("homepage.html", user=user,)
 
     else:
 
-        return render_template("homepage.html")
+        return render_template("homepage.html", all_states=US_STATES,)
 
 
 @app.route("/create-account")

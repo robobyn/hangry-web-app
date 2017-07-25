@@ -1,4 +1,5 @@
 """Server holds routes for Flask app."""
+import os
 
 from flask import Flask, jsonify, render_template
 from flask import redirect, request, flash, session
@@ -8,13 +9,13 @@ from data_model import connect_to_db, db, User
 from eatstreet import search_eatstreet, get_restaurant_list, get_cuisine_count
 from eatstreet import format_chart_data, get_restaurant_details
 from eatstreet import get_restaurant_menu
-from yelp import get_yelp_rating, get_business_id, get_reviews, get_photos
+from yelp import get_business_id, get_reviews, get_photos
 from helper_functions import COMMON_SEARCH_TERMS, US_STATES
 from helper_functions import list_with_yelp
 
 app = Flask(__name__)
 
-app.secret_key = "ABCD"  # need to create secret key & fill this in
+app.secret_key = os.environ["SECRET_KEY"]
 
 
 @app.route("/")

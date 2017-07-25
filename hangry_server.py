@@ -32,15 +32,6 @@ def homepage():
 
         return render_template("homepage.html", all_states=US_STATES,)
 
-
-@app.route("/create-account")
-def show_acct_form():
-    """Display form to create Hangry account."""
-
-    return render_template("create-account.html",
-                           all_states=US_STATES,)
-
-
 @app.route("/create-account", methods=["POST"])
 def create_acct():
     """Sends user's account creation form to database.
@@ -81,7 +72,7 @@ def create_acct():
 
     else:
         flash("That e-mail address is already in use!  Login at our homepage or try a different email.")
-        return redirect("/create-account")
+        return redirect("/")
 
 
 @app.route("/update-account", methods=["POST"])

@@ -17,6 +17,10 @@ h2, h3 {
     font-family: headerFont, sans-serif;
 }
 
+h4, h5, h6 {
+    font-weight: bold;
+}
+
 .main-title {
     font-size: 90px;
 }

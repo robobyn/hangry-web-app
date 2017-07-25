@@ -106,12 +106,6 @@ class FlaskTestsLoggedOut(TestCase):
         self.assertIn("You must be logged in to search.", result.data)
         self.assertNotIn("Get ready to eat", result.data)
 
-    def test_create_account(self):
-        """Test create account page."""
-
-        result = self.client.get("/create-account")
-        self.assertIn("Create your Account", result.data)
-
 
 class FlaskTestsLoggedIn(TestCase):
     """Flask tests for pages when user logged in to session."""

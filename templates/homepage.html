@@ -5,7 +5,7 @@
   <div class="col-xs-12">
 
     <div>
-    <h1 align="center">Hangry</h1>
+    <h1 class="main-title" align="center">Hangry</h1>
     <h2 align="center">For when you're so hungry you can't even.</h2>
 
     </div>
@@ -16,6 +16,7 @@
 <div class="row">
   <div class="col-xs-12">
     {% if "user_id" not in session %}
+    <div class="col-xs-1"></div>
     <div class="col-xs-5" align="center">
       <h3>New to Hangry?</h3><br>
       <button class="btn btn-info" id="showcreateacct">Sign up</button>
@@ -61,11 +62,9 @@
       </form>
     </div>
 
-  <div class="col-xs-2"></div>
-
   <div class="col-xs-5" align="center">
-      <h3>Login</h3><br>
-      <button class="btn btn-info" id="showlogin">Show Login Form</button>
+      <h3>Back for More?</h3><br>
+      <button class="btn btn-info" id="showlogin">Login</button>
 
         <form action="/login" id="loginform" method="post" class="hidden">
           <div class="form-group">
@@ -81,10 +80,13 @@
             <input type="submit" class="btn btn-info" value="Login">
         </form>
       </div>
+      <div class="col-xs-1"></div>
     </div>
 
+
     {% else %}
-  <div class="col-xs-4">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4" align="center">
     <h2>Hi, {{ user.username }}!</h2>
 
     <form action="/search-results" method="get">
@@ -96,6 +98,7 @@
         </div>
       </form><br><br>
     </div>
+  <div class="col-xs-4"></div>
 </div>
 
 

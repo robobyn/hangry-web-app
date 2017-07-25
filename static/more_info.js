@@ -101,7 +101,7 @@ function showPhotos(photos) {
 
 function showOrderInfo(name, openNow, orderUrl) {
 
-    $("#order-info").removeClass("hidden").append("<h1>" + name + "</h1>");
+    $("#order-info").removeClass("hidden").append("<h2>" + name + "</h2>");
 
     if (openNow) {
         $("#order-info").append("<p>" + name + " is open now</p>");

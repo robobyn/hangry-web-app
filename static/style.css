@@ -1,10 +1,29 @@
 a {
-    font-size: 18px;
-    color: #5BC0DE;
+    font-size: 16px;
+    color: #0645AD;
 }
 
-p {
-    font-size: 14px;
+@font-face {
+    font-family: headerFont;
+    src: url(angry-font.otf);
+}
+
+h1 {
+    font-size: 50px;
+    font-family: headerFont, sans-serif;
+}
+
+h2, h3 {
+    font-family: headerFont, sans-serif;
+}
+
+.main-title {
+    font-size: 90px;
+}
+
+body, p, .label {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
 }
 
 .show-more, .restaurant-list, .create-account {

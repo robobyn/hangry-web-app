@@ -6,7 +6,7 @@ ADDRESS_FORMAT = "{} {}, {} {}"
 COMMON_SEARCH_TERMS = ["Pizza", "Sandwiches", "Italian", "Sushi", "Chinese",
                        "Burgers", "Indian", "Mexican", "Desserts",
                        "Thai", "Salads"]
-US_STATES = us_state_abbrev = {
+US_STATES = {
     'Alabama': 'AL',
     'Alaska': 'AK',
     'Arizona': 'AZ',

@@ -33,6 +33,7 @@ def homepage():
 
         return render_template("homepage.html", all_states=US_STATES,)
 
+
 @app.route("/create-account", methods=["POST"])
 def create_acct():
     """Sends user's account creation form to database.

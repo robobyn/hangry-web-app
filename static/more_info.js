@@ -1,12 +1,14 @@
+// functions to display more information on clicking restaurant name
+// information shows on search-results template
+
 $(function () {
 
     function getMoreInfo(evt) {
 
         var name = this.id;
 
-        console.log("we're in get more info");
-        console.log(name);
-
+        // get information from show-more server route
+        // call showMoreInfo function
         $.get("/show-more", {"name": name}, showMoreInfo);
 
         evt.preventDefault();
@@ -14,15 +16,15 @@ $(function () {
 
     function showMoreInfo(data) {
 
-        console.log(data.status);
-        console.log(data);
-
+        // use data from server API call
         var name = data.name;
         var reviews = data.reviews;
         var photos = data.photos;
         var openNow = data.openNow;
         var orderUrl = data.orderUrl;
 
+        // show fields where info will display on search-results template
+        // empty any current information in the fields
         $(".show-more").removeClass("hidden");
         $("#reviews").empty().removeClass("hidden");
         $("#photos").empty().removeClass("hidden");
@@ -50,6 +52,7 @@ function showReviews(reviews) {
         var rating = reviews[i]["rating"];
         var reviewText = reviews[i]["text"];
 
+        // if else statements determine which Yelp star image should be shown
         if (rating == 1) {
             imgHtml = '<img src="/static/yelp_stars/web_and_ios/small/small_1.png">';
             $("#reviews").append("Rating " + imgHtml + " " + reviewText + "<br><br>");
@@ -91,6 +94,7 @@ function showReviews(reviews) {
 
 function showPhotos(photos) {
 
+    // format photos from Yelp API to display on search-results template
     for (var i = 0; i < photos.length; i++) {
 
         $("#photos").append('<img src=' + photos[i] + ' class="img-rounded" width="80%"><br><br>');
@@ -101,6 +105,7 @@ function showPhotos(photos) {
 
 function showOrderInfo(name, openNow, orderUrl) {
 
+    // determine if restaurant is open and show user link to order if open
     $("#order-info").removeClass("hidden").append("<h2>" + name + "</h2>");
 
     if (openNow) {

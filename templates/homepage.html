@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- homepage title and caption -->
 <div class="row homepage-forms">
   <div class="col-xs-12">
 
@@ -13,6 +14,8 @@
 
 <br><br>
 
+
+<!-- user login shown only if no user id in session -->
 <div class="row">
   <div class="col-xs-12">
     {% if "user_id" not in session %}
@@ -62,6 +65,7 @@
       </form>
     </div>
 
+<!-- account creation option shown only if no user id in session -->
   <div class="col-xs-5" align="center">
       <h3>Back for More?</h3><br>
       <button class="btn btn-info" id="showlogin">Login</button>
@@ -85,6 +89,8 @@
 
 
     {% else %}
+
+<!-- if user already logged in display user greeting and search box -->
   <div class="col-xs-4"></div>
   <div class="col-xs-4" align="center">
     <h2>Hi, {{ user.username }}!</h2>
@@ -108,6 +114,7 @@
 
 {% block scripts %}
 
+<!-- JS for displaying forms on button clicks -->
   <script src="/static/forms.js"></script>
 
 {% endblock %}

@@ -1,10 +1,12 @@
 """Server holds routes for Flask app."""
 import os
 
+# import flask libraries
 from flask import Flask, jsonify, render_template
 from flask import redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
+# import data model and helper api functions
 from data_model import connect_to_db, db, User
 from eatstreet import search_eatstreet, get_restaurant_list, get_cuisine_count
 from eatstreet import format_chart_data, get_restaurant_details
@@ -42,6 +44,7 @@ def create_acct():
     If user exists, prompts user to login
     If user does not exist, creates new user & adds to database."""
 
+    # get information from user input
     username = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
@@ -51,8 +54,10 @@ def create_acct():
     zipcode = request.form.get("zipcode")
     cuisine = request.form.get("cuisine")
 
+    # check to see if user has already created account
     existing_user = User.query.filter(User.email == email).first()
 
+    # only create new user in database if email not already used
     if not existing_user:
 
         new_user = User(username=username,
@@ -84,6 +89,7 @@ def update_user_info():
     user_id = session["user_id"]
     user = User.query.get(user_id)
 
+    # get current user info to show existing values in fields
     user.user_id = user.user_id
     user.username = request.form.get("username")
     user.email = request.form.get("email")
@@ -109,6 +115,7 @@ def update_user_info():
 def show_user(user_id):
     """Shows user's profile page."""
 
+    # only show user own profile page and only when logged in
     if "user_id" not in session:
 
         flash("You need to login to see your profile page.")
@@ -143,6 +150,7 @@ def count_cuisines():
     user = User.query.get(user_id)
     full_address = user.get_full_address()
 
+    # format information for chart on user profile page
     cuisine_dict = get_cuisine_count(full_address)
 
     formatted_dict = format_chart_data(cuisine_dict)
@@ -156,11 +164,13 @@ def show_results():
 
     if "user_id" in session:
 
+        # get search request from form, user session and pg database
         search_term = request.args.get("search")
         user_id = session["user_id"]
         user = User.query.get(user_id)
         full_address = user.get_full_address()
 
+        # helper functions to get and format restaurant info w/ratings
         eatstreet_json = search_eatstreet(search_term, full_address)
         eatstreet_options = get_restaurant_list(eatstreet_json)
         restaurant_list = list_with_yelp(eatstreet_options)
@@ -183,12 +193,15 @@ def show_more_info():
 
        JSON response passes to AJAX route in forms.js"""
 
+    # get restaurant name from user's click
+    # get user info from session and database
     restaurant = request.args.get("name")
     user_id = session["user_id"]
     user = User.query.get(user_id)
     city = user.city
     user_address = user.get_full_address()
 
+    # helper functions to get and format yelp and eatstreet info
     yelp_id = get_business_id(restaurant, city)
     eatstreet_details = get_restaurant_details(restaurant, user_address)
     reviews = get_reviews(yelp_id)
@@ -206,11 +219,14 @@ def show_more_info():
 def show_menu():
     """Shows restaurant menu on clicking restaurant's menu button."""
 
+    # get restaurant name from user click
+    # get user information from session and database
     restaurant = request.args.get("menuName")
     user_id = session["user_id"]
     user = User.query.get(user_id)
     city = user.city
 
+    # helper functions to get and format menu information
     eatstreet_details = get_restaurant_details(restaurant, city)
     logo_url = eatstreet_details["logoUrl"]
     menu = get_restaurant_menu(eatstreet_details)
@@ -225,9 +241,11 @@ def show_menu():
 def log_user_in():
     """Logs user into account based on form input."""
 
+    # get user input
     email = request.form.get("email")
     form_password = request.form.get("password")
 
+    # check database for user
     existing_user = User.query.filter(User.email == email).first()
     user_id = existing_user.user_id
 
@@ -237,7 +255,7 @@ def log_user_in():
         return redirect("/")
 
     else:
-
+        # check password accuracy
         user_password = existing_user.password
 
         if form_password != user_password:
@@ -247,6 +265,7 @@ def log_user_in():
 
         else:
 
+            # take user to profile only if password matches database
             session["user_id"] = user_id
 
             flash("You've successfully logged in")

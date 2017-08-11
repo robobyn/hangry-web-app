@@ -3,3 +3,4 @@
 env
 *example*
 .DS_Store
+.coverage

@@ -2,9 +2,9 @@
 
 import requests
 import os
-import json
 import re
 
+# URLs and headers for interaction with EatStreet API
 SEARCH_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?"
 MENU_URL = "https://api.eatstreet.com/publicapi/v1/restaurant/{}/menu"
 HEADERS = {"X-Access-Token": os.environ["EAT_ACCESS_TOKEN"]}
@@ -32,6 +32,8 @@ def search_eatstreet(term, address):
 
     matching_restaurants = []
 
+    # check API response to see if first word of search term falls within
+    # restaurant or food type category
     for restaurant in restaurants:
 
         food_types = restaurant["foodTypes"]
@@ -98,6 +100,7 @@ def get_restaurant_list(search_result):
 
     restaurant_list = []
 
+    # parse search result for use in other functions
     for restaurant in search_result:
         name = restaurant["name"]
         street_address = restaurant["streetAddress"]
@@ -131,10 +134,13 @@ def get_cuisine_count(address):
 
     cuisine_count = {}
 
+    # count how many restaurants fall into each cuisine type
     for restaurant in restaurants:
         food_types = restaurant["foodTypes"]
 
         for cuisine in food_types:
+            # only used first word because data from API is not consistent
+            # ex: 'indian' and 'indian food' are different categories
             first_word = cuisine.split(" ")[0]
 
             if first_word not in cuisine_count:
@@ -162,6 +168,7 @@ def format_chart_data(data_dict):
         labels.append(cuisine[0])
         counts.append(cuisine[1])
 
+    # format properly for use with chartJS
     data_dict = {"labels": labels,
                  "datasets": [{"data": counts,
                                "backgroundColor": [

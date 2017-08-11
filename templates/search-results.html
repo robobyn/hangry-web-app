@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- if search returns results format and display results -->
 {% if restaurant_list %}
   <div class="row">
     <div class="col-xs-12" align="center">
@@ -12,6 +13,7 @@
     </div>
   </div>
 
+<!-- search results and yelp ratings -->
   <div class="row">
     <div class="col-xs-6" align="center">
       <div class="restaurant-list">
@@ -19,6 +21,7 @@
         <p>Click a restaurant name to display reviews and photos</p>
         <p>Click a restaurant's menu button for the menu</p>
 
+          <!-- restaurant list passed to template from search-results server route -->
           {% for name, yelp_rating in restaurant_list %}
             <a href="#" class="restaurant" id="{{ name }}">{{ name }}</a><br>
 
@@ -50,6 +53,7 @@
 
           {% endfor %}
 
+        <!-- search form for user to try another search -->
         <form class="form-inline" action="/search-results" method="get">
           <div class="form-group">
             <label for="search-again">Search Again: </label>
@@ -59,6 +63,7 @@
         </form>
 
 
+          <!-- Yelp and Eatstreet logos -->
           <p>Ratings and search results powered by Yelp and Eatstreet</p>
 
           <a href="http://www.yelp.com">
@@ -75,6 +80,8 @@
 
     </div>
 
+  <!-- elements to show more information and menus when user clicks on
+    restaurant or menu button -->
     <div class="col-sm-6" align="center">
       <div class="show-more hidden">
         <div id="order-info" class="hidden"></div>
@@ -82,6 +89,7 @@
         <div id="photos" class="hidden"></div>
         <div id="menu" class="hidden"></div>
 
+        <!-- menu template using HandlebarsJS - raw tag used to avoid conflicting syntax with Handlebars and Jinja-->
         {% raw %}
 
         <script id="menu-template" type="text/x-handlebars-template">
@@ -108,7 +116,7 @@
 
   </div>
 
-
+<!-- if no results for user search display option to seach again -->
 {% else %}
 <div class="col-xs-12 no-results">
   <div align="center">

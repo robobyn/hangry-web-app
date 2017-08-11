@@ -6,6 +6,7 @@
 
   <div class="row">
 
+    <!-- user information and info update form -->
     <div class="col-xs-6" align="left">
       <h3>Before you search, check your delivery info</h3><br>
 
@@ -60,6 +61,7 @@
       </form>
       <br>
 
+      <!-- restaurant delivery search form -->
       <h3>Search by restaurant or cuisine</h3><br>
       <form action="/search-results" method="get">
         <div class="form-group">
@@ -70,10 +72,12 @@
       </form><br><br>
     </div>
 
+    <!-- chart of most popular restaurant categories in user's delivery area -->
     <div class="col-xs-6" align="center">
       <div class="profile-chart">
         <h3>Not sure what you want?</h3>
-        <h4>These are the top 5 types of restaurants in your delivery area</h4>
+        <h4>These are the top 5 types of restaurants in your delivery area
+        </h4>
         <canvas id="donutChart" style="height: 750px width: 750px"></canvas>
       </div>
     </div>

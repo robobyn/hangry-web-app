@@ -32,6 +32,7 @@ class User(db.Model):
         return "<User user_id={} username={}>".format(self.user_id,
                                                       self.username)
 
+    # return formatted address for use in API calls
     def get_full_address(self):
         """Concatenates st_address, city, state, zipcode.
            Returns full address for user"""

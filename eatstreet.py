@@ -39,6 +39,7 @@ def search_eatstreet(term, address):
         food_types = restaurant["foodTypes"]
         restaurant_name = restaurant["name"]
 
+        # regex search in restaurant names
         if re.search(first_word, restaurant_name, flags=re.IGNORECASE):
 
             if restaurant not in matching_restaurants:
@@ -46,6 +47,7 @@ def search_eatstreet(term, address):
 
         for food in food_types:
 
+            # regex search of food types
             if re.search(first_word, food, flags=re.IGNORECASE):
 
                 if restaurant not in matching_restaurants:

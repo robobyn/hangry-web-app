@@ -1,3 +1,8 @@
+"""Unit tests for Python routes.  assertIn statements indicate information
+that should be shown if routes are working properly - assertNotIn stmts
+represent information that should not be shown given circumstances surrounding
+test case."""
+
 from unittest import TestCase
 from data_model import connect_to_db, db, create_example_data
 from hangry_server import app
@@ -27,6 +32,7 @@ class FlaskTestsDatabase(TestCase):
     def test_login(self):
         """Test login page."""
 
+        # create mock session & mock user for test purposes
         with self.client as c:
             with c.session_transaction() as sess:
                 sess["user_id"] = 1
@@ -121,6 +127,7 @@ class FlaskTestsLoggedIn(TestCase):
         db.create_all()
         create_example_data()
 
+        # create mock session and user for test purposes
         with self.client as c:
             with c.session_transaction() as sess:
                 sess["user_id"] = 1

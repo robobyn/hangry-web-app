@@ -24,6 +24,7 @@ app.secret_key = os.environ["SECRET_KEY"]
 def homepage():
     """Homepage shows user login or acct creation link."""
 
+    # show appropriate content depending on session data
     if "user_id" in session:
 
         user_id = session["user_id"]

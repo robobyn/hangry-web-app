@@ -4,6 +4,7 @@
 import requests
 import os
 
+# API endpoint URLs and headers for Oauth
 SEARCH_URL = "https://api.yelp.com/v3/businesses/search"
 BUSINESS_URL = "https://api.yelp.com/v3/businesses/{}"
 REVIEWS_URL = "https://api.yelp.com/v3/businesses/{}/reviews"
@@ -11,13 +12,16 @@ HEADERS = {"Authorization": "Bearer " + os.environ["YELP_ACCESS_TOKEN"]}
 
 
 def get_access_token():
-    """Uses client id & secret key to get access token for Yelp API."""
+    """Uses client id & secret key to get access token for Yelp API.
+
+       Access token valid for 180 days - only need this function for new key."""
 
     token_url = 'https://api.yelp.com/oauth2/token'
 
+    # get client id and secret from environment after sourcing secrets.sh
     payload = {'grant_type': 'client_credentials',
                'client_id': os.environ["CLIENT_ID"],
-               'client_secret': os.environ["CLIENT_SECRET"]}  # get client id and secret from environment after sourcing secrets.sh
+               'client_secret': os.environ["CLIENT_SECRET"]}
 
     response = requests.post(token_url, data=payload)
 

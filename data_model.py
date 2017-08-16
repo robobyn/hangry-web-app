@@ -14,6 +14,7 @@ class User(db.Model):
 
     __tablename__ = "users"
 
+    # required data for users in database
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)

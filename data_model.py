@@ -20,7 +20,7 @@ class User(db.Model):
                         primary_key=True)
     username = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.String(15), nullable=False)
+    password = db.Column(db.String(70), nullable=False)
     st_address = db.Column(db.String(64), nullable=False)
     city = db.Column(db.String(45), nullable=False)
     state = db.Column(db.String(2), nullable=False)

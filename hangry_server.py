@@ -1,5 +1,7 @@
 """Server holds routes for Flask app."""
+# import python libraries
 import os
+import bcrypt
 
 # import flask libraries
 from flask import Flask, jsonify, render_template
@@ -55,6 +57,9 @@ def create_acct():
     zipcode = request.form.get("zipcode")
     cuisine = request.form.get("cuisine")
 
+    # hash and salt user password
+    hashed_pw = bcrypt.hashpw(password.encode("utf8"), bcrypt.gensalt())
+
     # check to see if user has already created account
     existing_user = User.query.filter(User.email == email).first()
 
@@ -63,7 +68,7 @@ def create_acct():
 
         new_user = User(username=username,
                         email=email,
-                        password=password,
+                        password=hashed_pw,
                         st_address=st_address,
                         city=city,
                         state=state,
@@ -259,7 +264,8 @@ def log_user_in():
         # check password accuracy
         user_password = existing_user.password
 
-        if form_password != user_password:
+        if not bcrypt.checkpw(form_password.encode("utf8"),
+                              user_password.encode("utf8")):
 
             flash("The password you entered does not match your account")
             return redirect("/")

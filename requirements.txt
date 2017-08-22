@@ -12,7 +12,6 @@ idna==2.5
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
-pkg-resources==0.0.0
 psycopg2==2.7.1
 pycparser==2.18
 requests==2.18.1

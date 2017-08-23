@@ -1,5 +1,6 @@
 """Helper functions to deal with requests from Yelp API."""
 
+
 import requests
 import os
 

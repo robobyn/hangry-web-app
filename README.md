@@ -18,7 +18,7 @@ $source env/bin/activate
 ```
 Pip install requirements
 ```
-pip install -r requirements.txt
+$pip install -r requirements.txt
 ```
 Get API user tokens from Yelp Fusion and Eatstreet (see yelp.py in this repo for
 a function that requests an oauth token using Yelp client id and secret key -
@@ -26,11 +26,11 @@ Oauth token required for Yelp Fusion API requests)
 
 Run tests.py to ensure all components working properly
 ```
-python tests.py
+$python tests.py
 ```
 Start the Hangry server
 ```
-python hangry-server.py
+$python hangry-server.py
 ```
 Run in browser using localhost:5000
 
@@ -43,7 +43,7 @@ Program written in Python 2.7.  Please see requirements.txt for a full list of r
 
 From the command line:
 ```
-python tests.py
+$python tests.py
 ```
 
 ## Built With

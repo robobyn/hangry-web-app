@@ -48,7 +48,7 @@ body, p, .label {
 }
 
 
-body, html {
+body {
     background-size: cover;
     background: url("burger-1835192_1920.jpg") no-repeat center center;
     height: 100%;

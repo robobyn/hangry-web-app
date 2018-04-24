@@ -37,9 +37,20 @@ class FlaskTestsDatabase(TestCase):
             with c.session_transaction() as sess:
                 sess["user_id"] = 1
 
+            self.client.post("/create-account",
+                             data={"username": "person",
+                                   "email": "person@address.com",
+                                   "password": "password1",
+                                   "st_address": "450 Sutter St.",
+                                   "city": "San Francisco",
+                                   "state": "CA",
+                                   "zipcode": "94108",
+                                   "cuisine": "pizza"},
+                             follow_redirects=True)
+
             result = self.client.post("/login",
-                                      data={"email": "dopey@dwarves.com",
-                                            "password": "abc123"},
+                                      data={"email": "person@address.com",
+                                            "password": "password1"},
                                       follow_redirects=True)
 
             self.assertIn("Not sure what you want?", result.data)
